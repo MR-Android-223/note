@@ -14,6 +14,7 @@
             --bg-color: #f8fafc;  
             --primary-color: #2563eb;  
             --folder-color: #f59e0b; 
+            --file-color: #ef4444; /* لون جديد للملفات */
             --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
             --secondary-color: #7c3aed;   
             --success-color: #059669;  
@@ -183,6 +184,10 @@
         }  
         .note-card.is-folder { background-color: #fffbeb; border-bottom-color: var(--folder-color) !important; border-radius: 20px 20px 0 0; }
         .note-card.is-folder::after { content: ''; position: absolute; top: -10px; right: 0; width: 40%; height: 10px; background-color: #fcd34d; border-radius: 10px 10px 0 0; opacity: 0.5; }
+        
+        /* FILE CARD STYLE */
+        .note-card.is-file { background-color: #fff1f2; border-bottom-color: var(--file-color) !important; }
+        
         .note-card.drag-target { border: 3px dashed var(--primary-color) !important; background-color: #e0e7ff !important; transform: scale(1.05); }
         .note-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }  
         .note-card.dragging { opacity: 0.5; border: 2px dashed var(--text-secondary); transform: scale(0.95); }
@@ -416,7 +421,11 @@
 <div id="createTypeMenu">
     <button class="context-item" onclick="createItemWrapper('folder')">📁 مجلد جديد</button>
     <button class="context-item" onclick="createItemWrapper('note')">📝 ملاحظة جديدة</button>
+    <button class="context-item" onclick="triggerFileUpload()">📎 إضافة ملف</button>
 </div>
+
+<!-- Hidden File Input for the system picker -->
+<input type="file" id="fileUploadInput" multiple style="display:none;" onchange="handleFileUpload(event)">
 
 <div id="notesGrid" class="grid-container"></div>  
 
@@ -656,11 +665,26 @@
         if (filteredList.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; margin-top:20px;">لا توجد عناصر.</p>'; }
         filteredList.forEach(item => {
             const card = document.createElement('div'); card.className = `note-card ${item.type === 'folder' ? 'is-folder' : ''}`;
+            if(item.type === 'file') card.classList.add('is-file'); // Add file class
+            
             card.setAttribute('data-id', item.id); card.setAttribute('data-type', item.type); card.setAttribute('draggable', 'true'); 
-            let icon = item.type === 'folder' ? '📁' : '📄'; if (item.isLocked) icon = '🔒';
-            const count = item.items.length; const countLabel = item.type === 'folder' ? 'عنصر' : 'ملاحظة';
+            let icon = item.type === 'folder' ? '📁' : '📄'; 
+            if(item.type === 'file') icon = '📎'; // File icon
+            if (item.isLocked) icon = '🔒';
+            
+            let countLabel = "";
+            if(item.type === 'folder') {
+                const count = item.items.length; 
+                countLabel = `<div class="card-count">${count} عنصر</div>`;
+            } else if(item.type === 'file') {
+                countLabel = `<div class="card-count" style="direction:ltr">${formatFileSize(item.content.length * 0.75)}</div>`;
+            } else {
+                const count = item.items.length; 
+                countLabel = `<div class="card-count">${count} ملاحظة</div>`;
+            }
+
             if (selectedMainIds.has(item.id)) card.classList.add('selected');
-            card.innerHTML = ` <span class="card-selection-icon">${selectedMainIds.has(item.id) ? '✓' : ''}</span> <div class="card-icon-big">${icon}</div> <div class="card-title">${item.title}</div> <div class="card-count">${count} ${countLabel}</div> ${!isMainSelectionMode ? '<span class="sort-handle">⇅</span>' : ''} `;
+            card.innerHTML = ` <span class="card-selection-icon">${selectedMainIds.has(item.id) ? '✓' : ''}</span> <div class="card-icon-big">${icon}</div> <div class="card-title">${item.title}</div> ${countLabel} ${!isMainSelectionMode ? '<span class="sort-handle">⇅</span>' : ''} `;
             
             // Logic for Click vs Long Press
             let isLongPress = false;
@@ -691,6 +715,13 @@
         updateMainToolbar(); const clearBtn = document.getElementById('clearSearchBtn'); if (filter.length > 0) { clearBtn.style.display = 'flex'; } else { clearBtn.style.display = 'none'; }
     }
     
+    function formatFileSize(bytes) {
+        if(bytes === 0) return '0 B';
+        const k = 1024; const sizes = ['B', 'KB', 'MB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
     function searchNotes() { renderMainGrid(document.getElementById('searchInput').value); }
     function clearSearch() { document.getElementById('searchInput').value = ''; renderMainGrid(); }
     
@@ -712,7 +743,36 @@
     
     function openNoteDetails(id) { currentNoteId = id; pushState(); const note = findNoteById(allData, id); if (!note) { return; } document.getElementById('modalTitle').innerText = note.title; if (note.isLocked) { checkPassword(note, () => { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); }); } else { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); } }
     function closeModalInternal() { document.getElementById('detailsModal').style.display = 'none'; document.getElementById('subSearchInput').value = ''; toggleSelectionMode(false); }
-    function handleCardClick(e, item) { if (isMainSelectionMode) { e.stopPropagation(); toggleMainSelection(item.id); return; } if (e.target.closest('.sort-handle')) { return; } if (item.type === 'folder') { if (item.isLocked) { checkPassword(item, () => { currentFolderId = item.id; pushState(); renderMainGrid(); }); } else { currentFolderId = item.id; pushState(); renderMainGrid(); } } else { openNoteDetails(item.id); } }
+    function handleCardClick(e, item) { 
+        if (isMainSelectionMode) { e.stopPropagation(); toggleMainSelection(item.id); return; } 
+        if (e.target.closest('.sort-handle')) { return; } 
+        
+        if (item.type === 'folder') { 
+            if (item.isLocked) { checkPassword(item, () => { currentFolderId = item.id; pushState(); renderMainGrid(); }); } 
+            else { currentFolderId = item.id; pushState(); renderMainGrid(); } 
+        } 
+        else if (item.type === 'file') {
+            if (item.isLocked) { 
+                checkPassword(item, () => { openFile(item); }); 
+            } else { 
+                openFile(item); 
+            }
+        }
+        else { 
+            openNoteDetails(item.id); 
+        } 
+    }
+
+    // New Function to Open/Download File
+    function openFile(item) {
+        const link = document.createElement("a");
+        link.href = item.content;
+        link.download = item.title;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function renderSubNotes() {
         const listEl = document.getElementById('subNotesList'); listEl.innerHTML = ''; const note = findNoteById(allData, currentNoteId); if (!note) return; const filter = document.getElementById('subSearchInput').value.toLowerCase(); const subNotes = note.items;
         subNotes.forEach((content, index) => {
@@ -793,6 +853,8 @@
         else if (action === 'copyText') {
             if (item.type === 'folder') {
                 showNotification('لا يمكن نسخ مجلد كامل كنص', 'info');
+            } else if (item.type === 'file') {
+                showNotification('لا يمكن نسخ محتوى ملف، اضغط لفتحه', 'info');
             } else {
                 if (item.isLocked && !(await checkPassword(item))) return;
                 const textContent = item.items.join("\n\n---\n\n");
@@ -815,6 +877,55 @@
     }
 
     function showCreateMenu() { const menu = document.getElementById('createTypeMenu'); menu.style.display = 'flex'; setTimeout(() => { const closeMenu = (e) => { if(!e.target.closest('#createTypeMenu') && !e.target.closest('.fab')) { menu.style.display = 'none'; document.removeEventListener('click', closeMenu); } }; document.addEventListener('click', closeMenu); }, 100); }
+    
+    // --- File Upload Logic ---
+    function triggerFileUpload() {
+        document.getElementById('createTypeMenu').style.display = 'none';
+        document.getElementById('fileUploadInput').click();
+    }
+
+    async function handleFileUpload(event) {
+        const files = event.target.files;
+        if (!files.length) return;
+
+        showNotification('جاري المعالجة...', 'info');
+
+        for (let file of files) {
+            // Updated limit to 10MB as requested
+            if (file.size > 10 * 1024 * 1024) {
+                showNotification(`الملف ${file.name} كبير جداً (تجاوز 10 ميجا)`, 'error');
+                continue;
+            }
+
+            try {
+                const base64 = await toBase64(file);
+                const newItem = {
+                    id: Date.now() + Math.random(),
+                    type: 'file',
+                    title: file.name,
+                    content: base64, 
+                    isLocked: false
+                };
+                
+                // Add to current context (Root or Folder)
+                getCurrentList().unshift(newItem);
+            } catch(e) {
+                showNotification('فشل قراءة الملف', 'error');
+            }
+        }
+        
+        saveData();
+        renderMainGrid();
+        event.target.value = ''; // Reset input
+    }
+
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     async function createItemWrapper(type) { document.getElementById('createTypeMenu').style.display = 'none'; const title = await showInputModal(type === 'folder' ? 'اسم المجلد:' : 'عنوان الملاحظة:', '', 'single'); if (title) { const newItem = { id: Date.now(), type, title, items: [], isLocked: false }; getCurrentList().unshift(newItem); saveData(); renderMainGrid(); if (type === 'note') openNoteDetails(newItem.id); } }
 
     function toggleSelectionMode(active) { isSelectionMode = active; selectedSubIndices.clear(); document.getElementById('selectBtn').style.display = active ? 'none' : 'block'; ['selectAllBtn', 'cancelSelectionBtn', 'deleteSubBtn'].forEach(id => { document.getElementById(id).style.display = active ? 'block' : 'none'; }); renderSubNotes(); }
