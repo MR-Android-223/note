@@ -399,7 +399,11 @@
 <div id="contextMenu">  
     <button class="context-item" id="lockUnlockBtn" onclick="handleMenuAction('toggleLock')">🔒 قفل/فتح</button>  
     <button class="context-item" onclick="handleMenuAction('edit')">✏️ تعديل الاسم</button>  
-    <button class="context-item" onclick="handleMenuAction('copyText')">📄 نسخ (المحتوى)</button>
+    
+    <!-- Dynamic Buttons: Copy (Default) / Move to Main (If inside folder) -->
+    <button id="ctxCopyBtn" class="context-item" onclick="handleMenuAction('copyText')">📄 نسخ (المحتوى)</button>
+    <button id="ctxMoveBtn" class="context-item" onclick="handleMenuAction('moveToRoot')" style="display:none;">🏠 إضافة للواجهة الرئيسية</button>
+
     <button class="context-item delete" onclick="handleMenuAction('delete')">🗑️ حذف</button>
 </div>  
 
@@ -743,9 +747,45 @@
         return new Promise(resolve => { const saveBtn = document.getElementById('inputBtn'); saveBtn.onclick = () => hideInputModal(true, resolve, activeInput.value); window.hideInputModal = (isSaved, res = resolve, val = null) => { modal.style.display = 'none'; modal.classList.remove('clean-mode'); activeInputModalMode = null; searchToolbar.style.display = 'none'; res(isSaved ? val : null); if (window.history.state && window.history.state.open) { window.history.back(); } }; window.copyModalContent = () => { navigator.clipboard.writeText(activeInput.value); showNotification('تم نسخ المحتوى', 'info'); }; window.pasteModalContent = async () => { try { const text = await navigator.clipboard.readText(); activeInput.value = text; } catch(e) { showNotification('تعذر الوصول إلى الحافظة', 'error'); } }; });
     }
 
+    // Helper to check global app password
+    async function verifyAppPass() {
+        const storedPass = localStorage.getItem(APP_PASS_KEY);
+        if (!storedPass) return true; // No global lock set
+        const input = await showPasswordModal();
+        if (input && btoa(input) === storedPass) return true;
+        showNotification('كلمة مرور التطبيق خاطئة', 'error');
+        return false;
+    }
+
+    function showContextMenu(id) { 
+        activeCardId = id; 
+        const menu = document.getElementById('contextMenu'); 
+        
+        // --- Show/Hide Move/Copy buttons based on context ---
+        const copyBtn = document.getElementById('ctxCopyBtn');
+        const moveBtn = document.getElementById('ctxMoveBtn');
+
+        if (currentFolderId === null) {
+            // We are at root
+            copyBtn.style.display = 'flex';
+            moveBtn.style.display = 'none';
+        } else {
+            // We are inside a folder
+            copyBtn.style.display = 'none';
+            moveBtn.style.display = 'flex';
+        }
+
+        menu.style.display = 'flex'; 
+        setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); 
+    }
+
     async function handleMenuAction(action) {
         document.getElementById('contextMenu').style.display = 'none'; const item = findNoteById(allData, activeCardId); if (!item) return;
+        
         if (action === 'delete') {
+            // Require Global App Password for any delete action
+            if (!await verifyAppPass()) return;
+
             if (item.isLocked) { const pass = await showPasswordModal(); if (!pass) return; if (btoa(pass) !== item.passwordHash) { showNotification('كلمة المرور خاطئة', 'error'); return; } }
             if (await showConfirmModal(`هل أنت متأكد من حذف "${item.title}"؟`)) { if (currentFolderId === null) allData = allData.filter(n => n.id !== activeCardId); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => n.id !== activeCardId); saveData(); renderMainGrid(); }
         } else if (action === 'edit') { if (item.isLocked && !(await checkPassword(item))) return; const newTitle = await showInputModal(item.type === 'folder' ? 'تعديل اسم المجلد:' : 'تعديل عنوان الملاحظة:', item.title, 'single'); if (newTitle) { item.title = newTitle; saveData(); renderMainGrid(); } } 
@@ -760,6 +800,18 @@
                 showNotification('تم نسخ محتوى الملاحظة', 'success');
             }
         }
+        else if (action === 'moveToRoot') {
+            if (currentFolderId === null) return; // Already at root
+            const folder = findNoteById(allData, currentFolderId);
+            const itemIndex = folder.items.findIndex(n => n.id === activeCardId);
+            if(itemIndex !== -1) {
+                const [item] = folder.items.splice(itemIndex, 1);
+                allData.unshift(item); // Move to root
+                saveData();
+                renderMainGrid();
+                showNotification('تم النقل للواجهة الرئيسية', 'success');
+            }
+        }
     }
 
     function showCreateMenu() { const menu = document.getElementById('createTypeMenu'); menu.style.display = 'flex'; setTimeout(() => { const closeMenu = (e) => { if(!e.target.closest('#createTypeMenu') && !e.target.closest('.fab')) { menu.style.display = 'none'; document.removeEventListener('click', closeMenu); } }; document.addEventListener('click', closeMenu); }, 100); }
@@ -770,7 +822,6 @@
     function selectAllSubNotes() { const note = findNoteById(allData, currentNoteId); note.items.forEach((_, i) => selectedSubIndices.add(i)); renderSubNotes(); }
     async function deleteSelectedSubNotesWrapper() { if (selectedSubIndices.size === 0) return; if (await showConfirmModal('حذف العناصر المحددة؟')) { const note = findNoteById(allData, currentNoteId); const sorted = Array.from(selectedSubIndices).sort((a,b) => b-a); sorted.forEach(i => note.items.splice(i, 1)); saveData(); toggleSelectionMode(false); } }
 
-    function showContextMenu(id) { activeCardId = id; const menu = document.getElementById('contextMenu'); menu.style.display = 'flex'; setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); }
     function showSubContextMenu(index) { activeSubNoteIndex = index; const menu = document.getElementById('subNoteContextMenu'); menu.style.display = 'flex'; setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); }
     function handleSubNoteAction(action) { const note = findNoteById(allData, currentNoteId); if (action === 'delete') note.items.splice(activeSubNoteIndex, 1); else if (action === 'copy') navigator.clipboard.writeText(note.items[activeSubNoteIndex]); else if (action === 'edit') editSubNote(activeSubNoteIndex); saveData(); renderSubNotes(); document.getElementById('subNoteContextMenu').style.display = 'none'; }
 
@@ -779,7 +830,17 @@
     function updateMainToolbar() { if(isMainSelectionMode) { document.getElementById('mainSelectionCount').innerText = selectedMainIds.size; const list = getCurrentList(); const selectedItems = list.filter(n => selectedMainIds.has(n.id)); const allLocked = selectedItems.length > 0 && selectedItems.every(n => n.isLocked); const allUnlocked = selectedItems.length > 0 && selectedItems.every(n => !n.isLocked); document.getElementById('lockMultipleBtn').style.display = allUnlocked && selectedItems.length > 0 ? 'block' : 'none'; document.getElementById('unlockMultipleBtn').style.display = allLocked && selectedItems.length > 0 ? 'block' : 'none'; } }
     async function toggleMultipleLock(shouldLock) { if (selectedMainIds.size === 0) return; const list = getCurrentList(); const itemsToProcess = list.filter(n => selectedMainIds.has(n.id)); if (!shouldLock) { if (itemsToProcess.some(item => item.isLocked)) { const pass = await showPasswordModal(); if (!pass) return; const hash = btoa(pass); itemsToProcess.forEach(item => { if (item.isLocked && item.passwordHash === hash) { item.isLocked = false; item.passwordHash = null; } }); showNotification('تم إلغاء قفل العناصر المفتوحة بكلمة المرور.', 'success'); } } else { const pass = await showPasswordModal(); if (!pass) return; const hash = btoa(pass); itemsToProcess.forEach(item => { if (!item.isLocked) { item.isLocked = true; item.passwordHash = hash; } }); showNotification('تم قفل العناصر المحددة.', 'success'); } saveData(); toggleMainSelectionMode(false); }
     function selectAllMainNotes() { getCurrentList().forEach(i => selectedMainIds.add(i.id)); renderMainGrid(); }
-    async function deleteSelectedMainNotesWrapper() { if (selectedMainIds.size === 0) return; const list = getCurrentList(); const lockedItems = list.filter(n => selectedMainIds.has(n.id) && n.isLocked); if (lockedItems.length > 0) { const pass = await showPasswordModal(); if (!pass) return; const hash = btoa(pass); if (lockedItems[0].passwordHash !== hash) { showNotification('كلمة المرور خاطئة', 'error'); return; } } if (await showConfirmModal(`حذف ${selectedMainIds.size} عناصر؟`)) { if (currentFolderId === null) allData = allData.filter(n => !selectedMainIds.has(n.id)); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => !selectedMainIds.has(n.id)); saveData(); toggleMainSelectionMode(false); showNotification('تم حذف العناصر المحددة.', 'success'); } }
+    async function deleteSelectedMainNotesWrapper() { 
+        if (selectedMainIds.size === 0) return; 
+        
+        // Require Global App Password for bulk delete
+        if (!await verifyAppPass()) return;
+
+        const list = getCurrentList(); 
+        const lockedItems = list.filter(n => selectedMainIds.has(n.id) && n.isLocked); 
+        if (lockedItems.length > 0) { const pass = await showPasswordModal(); if (!pass) return; const hash = btoa(pass); if (lockedItems[0].passwordHash !== hash) { showNotification('كلمة المرور خاطئة', 'error'); return; } } 
+        if (await showConfirmModal(`حذف ${selectedMainIds.size} عناصر؟`)) { if (currentFolderId === null) allData = allData.filter(n => !selectedMainIds.has(n.id)); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => !selectedMainIds.has(n.id)); saveData(); toggleMainSelectionMode(false); showNotification('تم حذف العناصر المحددة.', 'success'); } 
+    }
 
     async function handleSettingsOpen() { 
         const storedAppPass = localStorage.getItem(APP_PASS_KEY); if (storedAppPass) { const enteredPass = await showPasswordModal(); if (!enteredPass || btoa(enteredPass) !== storedAppPass) { showNotification('كلمة المرور خاطئة', 'error'); return; } } 
@@ -788,10 +849,10 @@
     }
     function hideSettingsModal() { document.getElementById('settingsModal').style.display = 'none'; }
     function updateSettingsUI() { const hasPass = localStorage.getItem(APP_PASS_KEY) !== null; document.getElementById('setPassBtn').style.display = hasPass ? 'none' : 'flex'; document.getElementById('removePassBtn').style.display = hasPass ? 'flex' : 'none'; }
-    async function setAppPassword() { const p = await showPasswordModal(); if(p) { localStorage.setItem(APP_PASS_KEY, btoa(p)); showNotification('تم القفل بنجاح', 'success'); hideSettingsModal(); } }
-    async function removeAppPassword() { if(await showConfirmModal('حذف كلمة مرور التطبيق؟')) { localStorage.removeItem(APP_PASS_KEY); hideSettingsModal(); showNotification('تم حذف كلمة المرور', 'info'); } }
+    async function setAppPassword() { const p = await showPasswordModal(); if(p) { localStorage.setItem(APP_PASS_KEY, btoa(p)); saveData(); showNotification('تم القفل بنجاح', 'success'); hideSettingsModal(); } }
+    async function removeAppPassword() { if(await showConfirmModal('حذف كلمة مرور التطبيق؟')) { localStorage.removeItem(APP_PASS_KEY); saveData(); hideSettingsModal(); showNotification('تم حذف كلمة المرور', 'info'); } }
     
-    // --- IMPORT / EXPORT FUNCTIONS (WITH FIX) ---
+    // --- IMPORT / EXPORT FUNCTIONS ---
     function exportDataAuto() { 
         const blob = new Blob([JSON.stringify(allData)], {type: "application/json"}); 
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); 
@@ -869,7 +930,15 @@
         
         try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
         if(searchResp.status === 401) { localStorage.removeItem('gAccessToken'); gAccessToken=null; document.getElementById('loginOverlay').style.display = 'flex'; return; } 
-        const data = await searchResp.json(); let fileId = null; if(data.files && data.files.length > 0) fileId = data.files[0].id; const payload = { smartNotesData: allData }; const fileBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' }); 
+        const data = await searchResp.json(); let fileId = null; if(data.files && data.files.length > 0) fileId = data.files[0].id; 
+        
+        // Include App Pass in Cloud Data
+        const payload = { 
+            smartNotesData: allData,
+            appGlobalPass: localStorage.getItem(APP_PASS_KEY) // Save global pass to cloud
+        }; 
+        const fileBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' }); 
+        
         if(fileId) { await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${gAccessToken}`, 'Content-Type': 'application/json' }, body: fileBlob }); } else { const metadata = { name: FILENAME, mimeType: 'application/json', parents: ['appDataFolder'] }; const form = new FormData(); form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' })); form.append('file', fileBlob); await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', { method: 'POST', headers: { 'Authorization': `Bearer ${gAccessToken}` }, body: form }); } 
         if(!silent) showNotification("تم الحفظ في السحابة ✅", "success"); } catch(e) { if(!silent) showNotification("فشل الرفع", "error"); } 
         
@@ -883,7 +952,18 @@
         setSyncLoader(true);
         document.getElementById('syncText').innerText = "تحميل...";
 
-        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const data = await searchResp.json(); if(data.files && data.files.length > 0) { const fileId = data.files[0].id; const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const cloudContent = await fileResp.json(); if(cloudContent.smartNotesData) { allData = cloudContent.smartNotesData; renderMainGrid(); if(!silent) showNotification("تم استعادة البيانات ✅", "success"); } } else { if(!silent) showNotification("لا توجد نسخة احتياطية", "info"); } } catch(e) { if(!silent) showNotification("فشل الجلب", "error"); } 
+        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const data = await searchResp.json(); if(data.files && data.files.length > 0) { const fileId = data.files[0].id; const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const cloudContent = await fileResp.json(); 
+        
+        // Load data + app pass
+        if(cloudContent) { 
+            if(cloudContent.smartNotesData) allData = cloudContent.smartNotesData; 
+            if(cloudContent.appGlobalPass) localStorage.setItem(APP_PASS_KEY, cloudContent.appGlobalPass); // Sync pass to local
+            else localStorage.removeItem(APP_PASS_KEY); // Or remove if not present
+
+            renderMainGrid(); 
+            if(!silent) showNotification("تم استعادة البيانات ✅", "success"); 
+        } 
+        } else { if(!silent) showNotification("لا توجد نسخة احتياطية", "info"); } } catch(e) { if(!silent) showNotification("فشل الجلب", "error"); } 
         
         setSyncLoader(false);
         document.getElementById('syncText').innerText = "";
