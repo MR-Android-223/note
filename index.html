@@ -3,7 +3,7 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
-    <title>ملاحظاتي الذكية - Mohammad Al Boushi</title>  
+    <title>ملاحظاتي الذكية - Cloud Pro</title>  
     
     <!-- مكتبة جوجل -->
     <script src="https://accounts.google.com/gsi/client" onload="initGoogleLib()" async defer></script>
@@ -14,7 +14,7 @@
             --bg-color: #f8fafc;  
             --primary-color: #2563eb;  
             --folder-color: #f59e0b; 
-            --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8); /* لون فخم مثل الموقع الأول */
+            --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
             --secondary-color: #7c3aed;   
             --success-color: #059669;  
             --danger-color: #dc2626;   
@@ -27,7 +27,7 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);  
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);  
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);  
-            --radius: 18px; /* زيادة الانحناء للفخامة */
+            --radius: 18px;
             
             --google-blue: #1a73e8;
             --google-hover: #1765cc;
@@ -119,6 +119,12 @@
             justify-content: center; cursor: pointer; z-index: 2000; border-radius: 50%;
         }  
         .settings-btn:hover { background-color: rgba(0,0,0,0.05); }
+
+        /* حالة السحابة */
+        .cloud-status {
+            position: absolute; top: 15px; left: 60px; font-size: 0.8rem;
+            color: var(--text-secondary); display: flex; align-items: center; gap: 5px;
+        }
 
         #mainSelectBtn {
             position: absolute; top: 15px; right: 10px; 
@@ -218,11 +224,11 @@
         }  
         .context-item:hover { background-color: var(--light-bg); color: var(--primary-color); }  
         .context-item.delete { color: var(--danger-color); border-top: 1px solid #f1f5f9; margin-top: 5px; }  
-        .context-item.add-to-home { border-top: 1px solid #f1f5f9; margin-top: 5px; color: var(--success-color); }
+        .context-item.copy-option { border-top: 1px solid #f1f5f9; margin-top: 5px; color: var(--success-color); }
 
-        /* --- Modals (تعديلات الفخامة) --- */
+        /* --- Modals --- */
         .modal {  
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); /* زيادة الضباب */
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); 
         }  
         .modal-content {  
             background-color: white; width: 100%; height: 100%; padding: 25px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);  
@@ -230,8 +236,8 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }  
         .small-modal-content { 
             height: auto !important; width: 90% !important; max-width: 320px !important; 
-            text-align: center; padding: 25px; border-radius: 24px; /* حواف دائرية أكثر */
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15); /* ظل فخم */
+            text-align: center; padding: 25px; border-radius: 24px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         }  
         .modal-message { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; line-height: 1.6; color: var(--text-color); }  
         
@@ -250,7 +256,6 @@
         }  
         .modal-btn:active { transform: scale(0.97); }
 
-        /* ستايل الأزرار الفخم مثل الموقع الأول */
         .modal-btn.confirm-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }  
         .modal-btn.confirm { background-color: var(--danger-color); color: white; }  
         .modal-btn.cancel { background-color: var(--light-bg); color: var(--text-secondary); }  
@@ -269,7 +274,7 @@
         .text-search-nav { background: #e0e7ff; border: none; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--primary-color); }
         .text-search-close { background: #fee2e2; color: #dc2626; border: none; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; }
 
-        /* --- Settings Modal (تعديلات) --- */
+        /* --- Settings Modal --- */
         #settingsModal .modal-content { padding: 20px; max-width: 320px !important; width: 90%; height: auto !important; border-radius: 24px; margin: auto; }
         .settings-title-header { text-align: center; font-size: 1.2rem; font-weight: 800; color: #1e293b; margin-bottom: 20px; margin-top: 0; }
         .settings-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background-color: transparent; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-weight: 600; color: var(--text-color); border-radius: 12px; font-size: 0.95rem; margin-bottom: 5px; }
@@ -331,6 +336,7 @@
             border-top: 2px solid var(--primary-color); border-radius: 50%;
             animation: spin 0.8s linear infinite; margin-left: 10px;
         }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     </style>  
 </head>  
@@ -340,29 +346,28 @@
 <div id="loginOverlay">
     <div class="login-card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-logo">
-        <h2 style="font-size:24px; font-weight:400; margin:0 0 8px 0; color:#202124;">تسجيل الدخول</h2>
-        <p style="color:#5f6368; margin-bottom:30px;">المتابعة إلى حسابك</p>
+        <h2 style="font-size:24px; font-weight:400; margin:0 0 8px 0; color:#202124;">تسجيل الدخول مطلوب</h2>
+        <p style="color:#5f6368; margin-bottom:30px;">التخزين السحابي فقط (Google Drive)</p>
 
         <a href="#" class="google-btn" onclick="event.preventDefault(); startGoogleLogin()">
             <div class="google-icon-wrapper">
                 <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="G logo"/>
             </div>
-            <span class="btn-text">المتابعة باستخدام Google</span>
+            <span class="btn-text">تسجيل الدخول للمزامنة</span>
         </a>
 
-        <div style="margin-top:40px; display:flex; justify-content:space-between; font-size:13px;">
-            <a href="#" style="color:#1a73e8; text-decoration:none;">إنشاء حساب</a>
-            <a href="#" style="color:#1a73e8; text-decoration:none;">مزيد من المعلومات</a>
+        <div style="margin-top:20px; font-size:12px; color:#666;">
+            لا يتم حفظ أي بيانات على هذا الجهاز. <br> كل شيء يحفظ مباشرة في Google Drive.
         </div>
         <div id="loginStatus" style="margin-top:20px; font-size:13px; color:var(--primary-color); display:none;">جاري الاتصال...</div>
-        <button onclick="document.getElementById('loginOverlay').style.display='none'" style="margin-top:20px; background:none; border:none; color:#666; cursor:pointer;">إغلاق</button>
     </div>
 </div>
 
 <div class="header-content">  
     <span class="settings-btn" onclick="handleSettingsOpen()">⋮</span>
-    <div style="position:absolute; top:15px; left:60px;">
+    <div class="cloud-status">
         <div id="syncLoader" class="sync-loader"></div>
+        <span id="syncText"></span>
     </div>
 
     <div id="mainSelectionToolbar" class="main-selection-toolbar">  
@@ -377,7 +382,7 @@
         </span>  
     </div> 
     <h1>ملاحظاتي الذكية</h1>  
-    <p class="author-name">Mohammad Al Boushi</p>  
+    <p class="author-name">Cloud Edition</p>  
 </div>  
 
 <div id="navBar">
@@ -385,15 +390,16 @@
     <span id="currentPathTitle" class="current-path" style="margin-right: auto;"></span>
 </div>
 
+<!-- تم إضافة autocomplete="off" لإصلاح مشكلة الروابط -->
 <div class="search-container">  
     <span id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">×</span>
-    <input type="text" id="searchInput" placeholder="🔍  ابحث في العناوين..." oninput="searchNotes()">  
+    <input type="text" id="searchInput" placeholder="🔍  ابحث في العناوين..." oninput="searchNotes()" autocomplete="off">  
 </div>  
 
 <div id="contextMenu">  
     <button class="context-item" id="lockUnlockBtn" onclick="handleMenuAction('toggleLock')">🔒 قفل/فتح</button>  
     <button class="context-item" onclick="handleMenuAction('edit')">✏️ تعديل الاسم</button>  
-    <button class="context-item" onclick="handleMenuAction('addToHome')">🏠 إضافة للشاشة الرئيسية</button>  
+    <button class="context-item" onclick="handleMenuAction('copyText')">📄 نسخ (المحتوى)</button>
     <button class="context-item delete" onclick="handleMenuAction('delete')">🗑️ حذف</button>
 </div>  
 
@@ -424,7 +430,7 @@
         <div style="text-align: right; margin-bottom: 10px;">  
             <span class="modal-title" id="modalTitle" style="display:block; font-size: 1.5rem; font-weight: 800; color: var(--primary-color);">عنوان الملاحظة</span>  
         </div>  
-        <input type="text" id="subSearchInput" placeholder="بحث داخل القائمة..." oninput="renderSubNotes()" style="margin-bottom:10px; padding:10px;">
+        <input type="text" id="subSearchInput" placeholder="بحث داخل القائمة..." oninput="renderSubNotes()" style="margin-bottom:10px; padding:10px;" autocomplete="off">
         <ul id="subNotesList" class="sub-notes-list"></ul>  
         <div class="input-area">  
             <textarea id="newSubNoteInput" placeholder="أضف نصاً..."></textarea>   
@@ -447,7 +453,7 @@
             <input type="text" id="inTextSearchInput" class="text-search-input" placeholder="بحث في النص..." onkeyup="if(event.key==='Enter') findInText('next')">
         </div>
         <p id="inputMessage" class="modal-message"></p>  
-        <input type="text" id="modalInputSingle" class="modal-input-single" style="display:none;">
+        <input type="text" id="modalInputSingle" class="modal-input-single" style="display:none;" autocomplete="off">
         <textarea id="modalInputArea" class="modal-input-area" style="display:none;" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
         <div class="modal-actions">  
             <button id="inputCopyBtn" class="modal-btn confirm-copy" onclick="copyModalContent()">نسخ</button>
@@ -458,13 +464,12 @@
     </div>  
 </div>  
   
-<!-- قائمة الإعدادات (مع تعديل زر الخروج والمزامنة) -->
 <div id="settingsModal" class="modal" onclick="if(event.target.id === 'settingsModal') hideSettingsModal()">  
     <div class="modal-content">  
         <h2 class="settings-title-header">إعدادات التطبيق</h2>  
         
         <div id="googleDriveSection">
-            <div style="text-align:center; font-size:0.9rem; color:#64748b; margin-bottom:5px;">التخزين السحابي</div>
+            <div style="text-align:center; font-size:0.9rem; color:#64748b; margin-bottom:5px;">التخزين السحابي (نشط دائماً)</div>
             
             <div id="googleLoginBtnArea">
                 <div class="settings-item" onclick="openLoginOverlay()" style="color:var(--google-blue);">
@@ -474,14 +479,21 @@
 
             <div id="googleSyncActions" style="display:none;">
                 <div class="settings-item" onclick="forceSyncFromCloud()"> 
-                    <span class="settings-title">جلب من السحابة (تنزيل)</span> <span class="settings-icon">⬇️</span> 
-                </div>
-                <div class="settings-item" onclick="forceUploadToDrive()"> 
-                    <span class="settings-title">رفع إلى السحابة (حفظ)</span> <span class="settings-icon">⬆️</span> 
+                    <span class="settings-title">إعادة تحميل من السحابة</span> <span class="settings-icon">🔄</span> 
                 </div>
             </div>
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
         </div>
+
+        <!-- أزرار التصدير والاستيراد الجديدة -->
+        <div class="settings-item" onclick="exportDataAuto()"> <span class="settings-title">تصدير ملف (JSON)</span> <span class="settings-icon">📥</span> </div>  
+        <div class="settings-item" onclick="document.getElementById('importFile').click()"> <span class="settings-title">استيراد ملف (JSON)</span> <span class="settings-icon">📂</span> </div>  
+        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importDataWrapper(event)">  
+        
+        <div class="settings-item" onclick="exportDataManual()"> <span class="settings-title">نسخ يدوي (Text)</span> <span class="settings-icon">📝</span> </div>
+        <div class="settings-item" onclick="importDataPaste()"> <span class="settings-title">استيراد يدوي (Paste)</span> <span class="settings-icon">📋</span> </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">  
 
         <div id="setPassBtn" class="settings-item" onclick="setAppPassword()">  
             <span class="settings-title">تعيين كلمة مرور للتطبيق</span> <span class="settings-icon">🔒</span>  
@@ -489,19 +501,12 @@
         <div id="removePassBtn" class="settings-item delete-all" onclick="removeAppPassword()" style="display:none; color: var(--danger-color);">  
             <span class="settings-title">حذف كلمة المرور</span> <span class="settings-icon">🔓</span>  
         </div>
-        <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
-        <div class="settings-item export-item" onclick="exportDataManual();"> <span class="settings-title">نسخ احتياطي (نصي)</span> <span class="settings-icon">📝</span> </div>  
-        <div class="settings-item export-item" onclick="exportDataAuto();"> <span class="settings-title">تنزيل نسخة احتياطية (ملف)</span> <span class="settings-icon">📥</span> </div>  
-        <div class="settings-item import-item" onclick="document.getElementById('importFile').click();"> <span class="settings-title">استعادة نسخة احتياطية</span> <span class="settings-icon">📂</span> </div>  
-        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importDataWrapper(event)">  
-        <div class="settings-item import-item" onclick="importDataPaste();"> <span class="settings-title">استعادة من نص منسوخ</span> <span class="settings-icon">📋</span> </div>  
+        
         <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">  
-        <div class="settings-item clear-item" onclick="clearAllDataWrapper();"> <span class="settings-title" style="color: var(--danger-color)">حذف جميع البيانات (محلي)</span> <span class="settings-icon">🗑️</span> </div>  
-
-        <!-- زر تسجيل الخروج في الأسفل تماماً -->
+        
         <div id="googleLogoutContainer" style="display:none; margin-top:5px; border-top:1px solid #eee;">
              <div class="settings-item" onclick="handleGoogleLogout()"> 
-                <span class="settings-title" style="color:#64748b;">تسجيل خروج Google</span> 
+                <span class="settings-title" style="color:#64748b;">تسجيل خروج Google (مسح البيانات)</span> 
                 <span class="settings-icon" id="googleLogoutIcon">🚪</span> 
             </div>
         </div>
@@ -565,8 +570,7 @@
 </div>
 
 <script>  
-    // --- Data Management ---
-    const STORAGE_KEY = 'smartNotesV2';  
+    // --- Data Management (RAM ONLY) ---
     const APP_PASS_KEY = 'smartNotes_appPass';
     let allData = [];   
     let currentFolderId = null; 
@@ -579,7 +583,8 @@
     const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.profile';
     const FILENAME = 'smart_notes_cloud_v1.json'; 
     let tokenClient;
-    let gAccessToken = localStorage.getItem('gAccessToken');
+    let gAccessToken = localStorage.getItem('gAccessToken'); 
+    let saveTimeout = null; 
 
     // --- History & Back Button Control ---
     window.addEventListener('popstate', function(event) {
@@ -589,17 +594,42 @@
         else if (document.getElementById('detailsModal').style.display === 'flex') { closeModalInternal(); } 
         else if (document.getElementById('searchInput').value !== '') { clearSearch(); }
         else if (currentFolderId !== null) { currentFolderId = null; renderMainGrid(); }
-        else if (document.getElementById('loginOverlay').style.display === 'flex') { document.getElementById('loginOverlay').style.display = 'none'; }
+        else if (document.getElementById('loginOverlay').style.display === 'flex') { /* Prevent back from login overlay easily */ }
     });
 
     function pushState() { window.history.pushState({ open: true }, ""); }
     function findNoteById(list, id) { id = parseInt(id); for (let item of list) { if (parseInt(item.id) === id) return item; if (item.type === 'folder' && item.items) { const found = findNoteById(item.items, id); if (found) return found; } } return null; }
     function getCurrentList() { if (currentFolderId === null) return allData; const folder = findNoteById(allData, currentFolderId); return folder ? folder.items : []; }
-    function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(allData)); } 
-    function loadData() { const str = localStorage.getItem(STORAGE_KEY); if (str) { try { let data = JSON.parse(str); data.forEach(item => { item.id = parseInt(item.id); if (item.type === 'folder' && item.items) item.items.forEach(sub => sub.id = parseInt(sub.id)); }); allData = data; } catch(e) { allData = []; } } }
+    
+    // --- NO LOCAL STORAGE FOR NOTES ---
+    function saveData() { 
+        if(saveTimeout) clearTimeout(saveTimeout);
+        document.getElementById('syncText').innerText = "جاري الحفظ...";
+        setSyncLoader(true);
+        saveTimeout = setTimeout(() => {
+            forceUploadToDrive(true); // True = Silent Mode
+        }, 1000);
+    } 
+    
+    function loadData() { 
+        allData = []; 
+        if(gAccessToken) {
+            forceSyncFromCloud(true); 
+        } else {
+            document.getElementById('loginOverlay').style.display = 'flex';
+        }
+    }
 
     let activeCardId = null; let currentNoteId = null; let activeSubNoteIndex = null; let isMainSelectionMode = false; let selectedMainIds = new Set(); let isSelectionMode = false; let selectedSubIndices = new Set();
-    document.addEventListener('DOMContentLoaded', () => { loadData(); renderMainGrid(); document.getElementById('searchInput').addEventListener('focus', function() { pushState(); }); document.getElementById('modalInputArea').addEventListener('input', function(e) { saveHistory(this.value); }); });
+    document.addEventListener('DOMContentLoaded', () => { 
+        // تفريغ حقل البحث عند التحميل لإصلاح مشكلة النص التلقائي
+        document.getElementById('searchInput').value = '';
+        
+        loadData(); 
+        renderMainGrid(); 
+        document.getElementById('searchInput').addEventListener('focus', function() { pushState(); }); 
+        document.getElementById('modalInputArea').addEventListener('input', function(e) { saveHistory(this.value); }); 
+    });
 
     function initHistory(val) { historyStack = [val]; historyIndex = 0; updateUndoRedoButtons(); }
     function saveHistory(val) { if (historyIndex < historyStack.length - 1) { historyStack = historyStack.slice(0, historyIndex + 1); } historyStack.push(val); historyIndex++; updateUndoRedoButtons(); }
@@ -613,7 +643,13 @@
         const grid = document.getElementById('notesGrid'); grid.innerHTML = ''; const navBar = document.getElementById('navBar');
         if (currentFolderId === null) { navBar.style.display = 'none'; } else { navBar.style.display = 'flex'; const folder = findNoteById(allData, currentFolderId); document.getElementById('currentPathTitle').innerText = folder ? `📁 ${folder.title}` : ''; }
         const list = getCurrentList(); const filteredList = list.filter(n => n.title.toLowerCase().includes(filter.toLowerCase()));
-        if (filteredList.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; margin-top:20px;">المجلد فارغ.</p>'; }
+        
+        if (!gAccessToken) {
+            grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#dc2626; margin-top:20px;">يجب تسجيل الدخول لعرض الملاحظات.</p>';
+            return;
+        }
+
+        if (filteredList.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; margin-top:20px;">لا توجد عناصر.</p>'; }
         filteredList.forEach(item => {
             const card = document.createElement('div'); card.className = `note-card ${item.type === 'folder' ? 'is-folder' : ''}`;
             card.setAttribute('data-id', item.id); card.setAttribute('data-type', item.type); card.setAttribute('draggable', 'true'); 
@@ -621,9 +657,31 @@
             const count = item.items.length; const countLabel = item.type === 'folder' ? 'عنصر' : 'ملاحظة';
             if (selectedMainIds.has(item.id)) card.classList.add('selected');
             card.innerHTML = ` <span class="card-selection-icon">${selectedMainIds.has(item.id) ? '✓' : ''}</span> <div class="card-icon-big">${icon}</div> <div class="card-title">${item.title}</div> <div class="card-count">${count} ${countLabel}</div> ${!isMainSelectionMode ? '<span class="sort-handle">⇅</span>' : ''} `;
-            card.onclick = (e) => handleCardClick(e, item); card.oncontextmenu = (e) => { e.preventDefault(); showContextMenu(item.id); };
-            let pressTimer; card.addEventListener('touchstart', (e) => { if (e.target.classList.contains('sort-handle')) return; pressTimer = setTimeout(() => { if (!isMainSelectionMode) showContextMenu(item.id); }, 600); });
-            card.addEventListener('touchend', () => clearTimeout(pressTimer)); card.addEventListener('touchmove', () => clearTimeout(pressTimer));
+            
+            // Logic for Click vs Long Press
+            let isLongPress = false;
+            card.onclick = (e) => { 
+                if (isLongPress) return; // Ignore click if long press triggered
+                handleCardClick(e, item); 
+            }; 
+            
+            // Context Menu Logic (Right Click + Long Press)
+            card.oncontextmenu = (e) => { e.preventDefault(); isLongPress = true; showContextMenu(item.id); };
+            let pressTimer; 
+            card.addEventListener('touchstart', (e) => { 
+                if (e.target.classList.contains('sort-handle')) return; 
+                isLongPress = false; // Reset
+                pressTimer = setTimeout(() => { 
+                    if (!isMainSelectionMode) {
+                        isLongPress = true;
+                        if(navigator.vibrate) navigator.vibrate(50);
+                        showContextMenu(item.id); 
+                    }
+                }, 600); // 600ms for long press
+            });
+            card.addEventListener('touchend', () => clearTimeout(pressTimer)); 
+            card.addEventListener('touchmove', () => clearTimeout(pressTimer));
+            
             addDragEvents(card, item); grid.appendChild(card);
         });
         updateMainToolbar(); const clearBtn = document.getElementById('clearSearchBtn'); if (filter.length > 0) { clearBtn.style.display = 'flex'; } else { clearBtn.style.display = 'none'; }
@@ -645,7 +703,7 @@
     function handleTouchMove(e) { if (!mobileDragClone) return; e.preventDefault(); const touch = e.touches[0]; updateClonePosition(touch.clientX, touch.clientY); mobileDragClone.style.display = 'none'; let elementBelow = document.elementFromPoint(touch.clientX, touch.clientY); mobileDragClone.style.display = 'block'; if (!elementBelow) return; let targetCard = elementBelow.closest('.note-card'); if (lastTargetEl && lastTargetEl !== targetCard) { lastTargetEl.classList.remove('drag-target-hover'); } if (targetCard && targetCard !== mobileDragEl) { targetCard.classList.add('drag-target-hover'); lastTargetEl = targetCard; } else { lastTargetEl = null; } }
     async function handleTouchEnd(e) { if (!mobileDragClone) return; mobileDragClone.remove(); mobileDragClone = null; if (mobileDragEl) mobileDragEl.style.opacity = '1'; if (lastTargetEl) { lastTargetEl.classList.remove('drag-target-hover'); const targetId = parseInt(lastTargetEl.getAttribute('data-id')); const targetType = lastTargetEl.getAttribute('data-type'); if (targetType === 'folder') { const action = await showDragActionModal(); if (action === 'move') { moveItemsToFolder(targetId); } else if (action === 'swap') { reorderItems(dragSrcId, targetId); } } else { reorderItems(dragSrcId, targetId); } } mobileDragEl = null; lastTargetEl = null; }
     function updateClonePosition(x, y) { mobileDragClone.style.left = (x - 75) + 'px'; mobileDragClone.style.top = (y - 75) + 'px'; }
-    function moveItemsToFolder(targetFolderId) { const list = getCurrentList(); const targetFolder = findNoteById(allData, targetFolderId); if (!targetFolder || targetFolder.type !== 'folder') return; let itemsToMove = []; if (selectedMainIds.size > 0) { itemsToMove = list.filter(n => selectedMainIds.has(n.id) && n.id !== targetFolderId); } else { itemsToMove = list.filter(n => n.id === dragSrcId && n.id !== targetFolderId); } if (itemsToMove.length === 0) return; if (currentFolderId === null) allData = allData.filter(n => !itemsToMove.includes(n)); else { const currentFolder = findNoteById(allData, currentFolderId); currentFolder.items = currentFolder.items.filter(n => !itemsToMove.includes(n)); } itemsToMove.forEach(item => targetFolder.items.unshift(item)); saveData(); toggleMainSelectionMode(false); renderMainGrid(); showNotification(`تم نقل العناصر إلى ${targetFolder.title}`, 'success'); }
+    function moveItemsToFolder(targetFolderId) { const list = getCurrentList(); const targetFolder = findNoteById(allData, targetFolderId); if (!targetFolder || targetFolder.type !== 'folder') return; let itemsToMove = []; if (selectedMainIds.size > 0) { itemsToMove = list.filter(n => selectedMainIds.has(n.id) && n.id !== targetFolderId); } else { itemsToMove = list.filter(n => n.id === dragSrcId && n.id !== targetFolderId); } if (itemsToMove.length === 0) return; if (currentFolderId === null) allData = allData.filter(n => !itemsToMove.includes(n)); else { const currentFolder = findNoteById(allData, currentFolderId); currentFolder.items = currentFolder.items.filter(n => !itemsToMove.includes(n)); } itemsToMove.forEach(item => targetFolder.items.unshift(item)); saveData(); toggleMainSelectionMode(false); renderMainGrid(); }
     function reorderItems(srcId, targetId) { let list = getCurrentList(); const srcIndex = list.findIndex(n => n.id === srcId); const targetIndex = list.findIndex(n => n.id === targetId); if (srcIndex < 0 || targetIndex < 0 || srcIndex === targetIndex) return; const [movedItem] = list.splice(srcIndex, 1); list.splice(targetIndex, 0, movedItem); saveData(); renderMainGrid(); }
     
     function openNoteDetails(id) { currentNoteId = id; pushState(); const note = findNoteById(allData, id); if (!note) { return; } document.getElementById('modalTitle').innerText = note.title; if (note.isLocked) { checkPassword(note, () => { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); }); } else { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); } }
@@ -673,7 +731,7 @@
         const matchPos = searchMatches[currentSearchIndex]; textarea.focus(); textarea.setSelectionRange(matchPos, matchPos + searchTerm.length); const fullText = textarea.value; const lines = fullText.substring(0, matchPos).split("\n"); const lineCount = lines.length; const lineHeight = 24; textarea.scrollTop = (lineCount - 2) * lineHeight; 
     }
 
-    // --- Modal Handling (Replaced Alert with Custom Modal) ---
+    // --- Modal Handling ---
     function showConfirmModal(message) { document.getElementById('confirmMessage').innerText = message; document.getElementById('confirmModal').style.display = 'flex'; return new Promise(resolve => { window.hideConfirmModal = (result) => { document.getElementById('confirmModal').style.display = 'none'; resolve(result); }; }); }
     function showPasswordModal() { document.getElementById('modalPasswordInput').value = ''; document.getElementById('passwordModal').style.display = 'flex'; document.getElementById('modalPasswordInput').focus(); return new Promise(resolve => { const passwordBtn = document.getElementById('passwordBtn'); passwordBtn.onclick = () => { const pass = document.getElementById('modalPasswordInput').value; document.getElementById('modalPasswordInput').value = ''; document.getElementById('passwordModal').style.display = 'none'; resolve(pass); }; window.hidePasswordModal = (result) => { document.getElementById('passwordModal').style.display = 'none'; resolve(result); }; }); }
     async function checkPassword(item, callback) { const pass = await showPasswordModal(); if (!pass) return false; if (btoa(pass) === item.passwordHash) { if (callback) callback(); return true; } else { showNotification('كلمة المرور خاطئة', 'error'); return false; } }
@@ -689,10 +747,19 @@
         document.getElementById('contextMenu').style.display = 'none'; const item = findNoteById(allData, activeCardId); if (!item) return;
         if (action === 'delete') {
             if (item.isLocked) { const pass = await showPasswordModal(); if (!pass) return; if (btoa(pass) !== item.passwordHash) { showNotification('كلمة المرور خاطئة', 'error'); return; } }
-            if (await showConfirmModal(`هل أنت متأكد من حذف "${item.title}"؟`)) { if (currentFolderId === null) allData = allData.filter(n => n.id !== activeCardId); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => n.id !== activeCardId); saveData(); renderMainGrid(); showNotification('تم الحذف', 'success'); }
+            if (await showConfirmModal(`هل أنت متأكد من حذف "${item.title}"؟`)) { if (currentFolderId === null) allData = allData.filter(n => n.id !== activeCardId); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => n.id !== activeCardId); saveData(); renderMainGrid(); }
         } else if (action === 'edit') { if (item.isLocked && !(await checkPassword(item))) return; const newTitle = await showInputModal(item.type === 'folder' ? 'تعديل اسم المجلد:' : 'تعديل عنوان الملاحظة:', item.title, 'single'); if (newTitle) { item.title = newTitle; saveData(); renderMainGrid(); } } 
         else if (action === 'toggleLock') { if (item.isLocked) { if (await checkPassword(item)) { item.isLocked = false; item.passwordHash = null; showNotification('تم فتح القفل', 'success'); } } else { const pass = await showPasswordModal(); if (pass) { item.isLocked = true; item.passwordHash = btoa(pass); showNotification('تم القفل', 'success'); } } saveData(); renderMainGrid(); } 
-        else if (action === 'addToHome') { if (currentFolderId !== null) { const currentList = getCurrentList(); const currentFolder = findNoteById(allData, currentFolderId); const itemIndex = currentList.findIndex(n => n.id === activeCardId); if (itemIndex > -1) { const [movedItem] = currentList.splice(itemIndex, 1); allData.unshift(movedItem); currentFolderId = null; saveData(); renderMainGrid(); showNotification(`تم نقل ${movedItem.title} إلى الشاشة الرئيسية.`, 'success'); } } }
+        else if (action === 'copyText') {
+            if (item.type === 'folder') {
+                showNotification('لا يمكن نسخ مجلد كامل كنص', 'info');
+            } else {
+                if (item.isLocked && !(await checkPassword(item))) return;
+                const textContent = item.items.join("\n\n---\n\n");
+                navigator.clipboard.writeText(textContent);
+                showNotification('تم نسخ محتوى الملاحظة', 'success');
+            }
+        }
     }
 
     function showCreateMenu() { const menu = document.getElementById('createTypeMenu'); menu.style.display = 'flex'; setTimeout(() => { const closeMenu = (e) => { if(!e.target.closest('#createTypeMenu') && !e.target.closest('.fab')) { menu.style.display = 'none'; document.removeEventListener('click', closeMenu); } }; document.addEventListener('click', closeMenu); }, 100); }
@@ -703,7 +770,7 @@
     function selectAllSubNotes() { const note = findNoteById(allData, currentNoteId); note.items.forEach((_, i) => selectedSubIndices.add(i)); renderSubNotes(); }
     async function deleteSelectedSubNotesWrapper() { if (selectedSubIndices.size === 0) return; if (await showConfirmModal('حذف العناصر المحددة؟')) { const note = findNoteById(allData, currentNoteId); const sorted = Array.from(selectedSubIndices).sort((a,b) => b-a); sorted.forEach(i => note.items.splice(i, 1)); saveData(); toggleSelectionMode(false); } }
 
-    function showContextMenu(id) { activeCardId = id; const menu = document.getElementById('contextMenu'); document.querySelector('.context-item[onclick*="addToHome"]').style.display = currentFolderId === null ? 'none' : 'flex'; menu.style.display = 'flex'; setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); }
+    function showContextMenu(id) { activeCardId = id; const menu = document.getElementById('contextMenu'); menu.style.display = 'flex'; setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); }
     function showSubContextMenu(index) { activeSubNoteIndex = index; const menu = document.getElementById('subNoteContextMenu'); menu.style.display = 'flex'; setTimeout(() => document.addEventListener('click', () => menu.style.display='none', {once:true}), 100); }
     function handleSubNoteAction(action) { const note = findNoteById(allData, currentNoteId); if (action === 'delete') note.items.splice(activeSubNoteIndex, 1); else if (action === 'copy') navigator.clipboard.writeText(note.items[activeSubNoteIndex]); else if (action === 'edit') editSubNote(activeSubNoteIndex); saveData(); renderSubNotes(); document.getElementById('subNoteContextMenu').style.display = 'none'; }
 
@@ -723,11 +790,47 @@
     function updateSettingsUI() { const hasPass = localStorage.getItem(APP_PASS_KEY) !== null; document.getElementById('setPassBtn').style.display = hasPass ? 'none' : 'flex'; document.getElementById('removePassBtn').style.display = hasPass ? 'flex' : 'none'; }
     async function setAppPassword() { const p = await showPasswordModal(); if(p) { localStorage.setItem(APP_PASS_KEY, btoa(p)); showNotification('تم القفل بنجاح', 'success'); hideSettingsModal(); } }
     async function removeAppPassword() { if(await showConfirmModal('حذف كلمة مرور التطبيق؟')) { localStorage.removeItem(APP_PASS_KEY); hideSettingsModal(); showNotification('تم حذف كلمة المرور', 'info'); } }
-    function exportDataManual() { showInputModal('نسخة احتياطية (نصية):', JSON.stringify(allData), 'area', true); }
-    function exportDataAuto() { const blob = new Blob([JSON.stringify(allData)], {type: "application/json"}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "smart_notes_backup.json"; a.click(); }
-    function importDataWrapper(e) { const reader = new FileReader(); reader.onload = (f) => { try { allData = JSON.parse(f.target.result); saveData(); renderMainGrid(); hideSettingsModal(); showNotification('تم استعادة البيانات بنجاح', 'success'); } catch(e){ showNotification('ملف غير صالح', 'error'); } }; reader.readAsText(e.target.files[0]); }
-    async function importDataPaste() { const t = await showInputModal('الصق نص النسخة الاحتياطية هنا:', '', 'area', false, true); if(t) { try { allData = JSON.parse(t); saveData(); renderMainGrid(); hideSettingsModal(); showNotification('تم استعادة البيانات بنجاح', 'success'); } catch(e){ showNotification('نص غير صالح', 'error'); } } }
-    async function clearAllDataWrapper() { if(await showConfirmModal('حذف كل الملاحظات نهائياً؟')) { allData = []; saveData(); renderMainGrid(); hideSettingsModal(); showNotification('تم حذف جميع البيانات', 'success'); } }
+    
+    // --- IMPORT / EXPORT FUNCTIONS (WITH FIX) ---
+    function exportDataAuto() { 
+        const blob = new Blob([JSON.stringify(allData)], {type: "application/json"}); 
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); 
+        a.download = "smart_notes_backup.json"; a.click(); 
+    }
+    function importDataWrapper(e) { 
+        const reader = new FileReader(); 
+        reader.onload = (f) => { 
+            try { 
+                allData = JSON.parse(f.target.result); 
+                saveData(); // Sync immediately
+                renderMainGrid(); 
+                hideSettingsModal(); 
+                showNotification('تم استعادة البيانات بنجاح', 'success'); 
+            } catch(e){ showNotification('ملف غير صالح', 'error'); } 
+        }; 
+        reader.readAsText(e.target.files[0]); 
+    }
+    function exportDataManual() { 
+        hideSettingsModal(); // FIX: Close settings first
+        setTimeout(() => {
+            showInputModal('نسخة احتياطية (نصية) - انسخ الكود:', JSON.stringify(allData), 'area', true); 
+        }, 100);
+    }
+    async function importDataPaste() { 
+        hideSettingsModal(); // FIX: Close settings first
+        setTimeout(async () => {
+            const t = await showInputModal('الصق نص النسخة الاحتياطية (JSON) هنا:', '', 'area', false, true); 
+            if(t) { 
+                try { 
+                    allData = JSON.parse(t); 
+                    saveData(); // Sync immediately
+                    renderMainGrid(); 
+                    showNotification('تم استعادة البيانات بنجاح', 'success'); 
+                } catch(e){ showNotification('نص غير صالح', 'error'); } 
+            }
+        }, 100);
+    }
+
     function showNotification(m, t) { const icon = document.getElementById('notifIcon'); icon.innerText = t === 'success' ? '✅' : (t === 'error' ? '❌' : 'ℹ️'); document.getElementById('notificationMessage').innerText = m; document.getElementById('notificationModal').style.display = 'flex'; }
     function closeNotification() { document.getElementById('notificationModal').style.display = 'none'; }
 
@@ -735,8 +838,8 @@
 
     function initGoogleLib() {
         if(window.google) {
-            tokenClient = google.accounts.oauth2.initTokenClient({ client_id: GOOGLE_CLIENT_ID, scope: SCOPES, callback: (resp) => { if (resp.access_token) { gAccessToken = resp.access_token; localStorage.setItem('gAccessToken', gAccessToken); document.getElementById('loginOverlay').style.display = 'none'; showNotification("تم الدخول بنجاح", "success"); fetchUserInfo(); checkGoogleLoginState(); } } });
-            if(gAccessToken) { checkGoogleLoginState(); fetchUserInfo(); } else if(tokenClient) { tokenClient.requestAccessToken({prompt: 'none'}); }
+            tokenClient = google.accounts.oauth2.initTokenClient({ client_id: GOOGLE_CLIENT_ID, scope: SCOPES, callback: (resp) => { if (resp.access_token) { gAccessToken = resp.access_token; localStorage.setItem('gAccessToken', gAccessToken); document.getElementById('loginOverlay').style.display = 'none'; showNotification("تم الدخول بنجاح", "success"); fetchUserInfo(); checkGoogleLoginState(); loadData(); } } });
+            if(gAccessToken) { checkGoogleLoginState(); fetchUserInfo(); loadData(); } else { document.getElementById('loginOverlay').style.display = 'flex'; }
         }
     }
     function startGoogleLogin() { if(tokenClient) tokenClient.requestAccessToken(); }
@@ -745,23 +848,45 @@
     async function fetchUserInfo() { if(!gAccessToken) return; const localPic = localStorage.getItem('userPhoto'); if(localPic) updateLogoutIcon(localPic); try { let res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); if(res.ok) { let data = await res.json(); if(data.picture) { localStorage.setItem('userPhoto', data.picture); updateLogoutIcon(data.picture); } } } catch(e) {} }
     function updateLogoutIcon(url) { const area = document.getElementById('googleLogoutIcon'); if(area) area.innerHTML = `<img src="${url}" class="user-profile-img" alt="User">`; }
 
-    // (Modified) Logout using Custom Modal
     async function handleGoogleLogout() {
-        if(await showConfirmModal("هل تريد تسجيل الخروج من Google؟")) {
-            localStorage.removeItem('gAccessToken'); localStorage.removeItem('userPhoto'); gAccessToken = null; document.getElementById('googleLogoutIcon').innerText = '🚪'; checkGoogleLoginState(); showNotification("تم تسجيل الخروج من السحابة", "info");
+        if(await showConfirmModal("هل تريد تسجيل الخروج؟ سيتم مسح الملاحظات من الشاشة (تبقى في السحابة).")) {
+            localStorage.removeItem('gAccessToken'); localStorage.removeItem('userPhoto'); 
+            gAccessToken = null; allData = []; // Wipe RAM
+            renderMainGrid(); 
+            document.getElementById('googleLogoutIcon').innerText = '🚪'; 
+            checkGoogleLoginState(); 
+            document.getElementById('loginOverlay').style.display = 'flex';
         }
     }
 
     function setSyncLoader(show) { document.getElementById('syncLoader').style.display = show ? 'inline-block' : 'none'; }
 
-    async function forceUploadToDrive() {
-        hideSettingsModal(); if(!gAccessToken) { showNotification("غير مسجل دخول", "error"); return; } setSyncLoader(true); showNotification("جاري الرفع للسحابة...", "info");
-        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); if(searchResp.status === 401) { localStorage.removeItem('gAccessToken'); gAccessToken=null; tokenClient.requestAccessToken(); return; } const data = await searchResp.json(); let fileId = null; if(data.files && data.files.length > 0) fileId = data.files[0].id; const payload = { smartNotesData: allData }; const fileBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' }); if(fileId) { await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${gAccessToken}`, 'Content-Type': 'application/json' }, body: fileBlob }); } else { const metadata = { name: FILENAME, mimeType: 'application/json', parents: ['appDataFolder'] }; const form = new FormData(); form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' })); form.append('file', fileBlob); await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', { method: 'POST', headers: { 'Authorization': `Bearer ${gAccessToken}` }, body: form }); } showNotification("تم الحفظ في السحابة ✅", "success"); } catch(e) { showNotification("فشل الرفع", "error"); } setSyncLoader(false);
+    async function forceUploadToDrive(silent = false) {
+        if(!gAccessToken) { if(!silent) showNotification("غير مسجل دخول", "error"); return; } 
+        if(!silent) { hideSettingsModal(); showNotification("جاري الرفع للسحابة...", "info"); }
+        setSyncLoader(true);
+        document.getElementById('syncText').innerText = "حفظ...";
+        
+        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
+        if(searchResp.status === 401) { localStorage.removeItem('gAccessToken'); gAccessToken=null; document.getElementById('loginOverlay').style.display = 'flex'; return; } 
+        const data = await searchResp.json(); let fileId = null; if(data.files && data.files.length > 0) fileId = data.files[0].id; const payload = { smartNotesData: allData }; const fileBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' }); 
+        if(fileId) { await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${gAccessToken}`, 'Content-Type': 'application/json' }, body: fileBlob }); } else { const metadata = { name: FILENAME, mimeType: 'application/json', parents: ['appDataFolder'] }; const form = new FormData(); form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' })); form.append('file', fileBlob); await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', { method: 'POST', headers: { 'Authorization': `Bearer ${gAccessToken}` }, body: form }); } 
+        if(!silent) showNotification("تم الحفظ في السحابة ✅", "success"); } catch(e) { if(!silent) showNotification("فشل الرفع", "error"); } 
+        
+        setSyncLoader(false);
+        document.getElementById('syncText').innerText = "";
     }
 
-    async function forceSyncFromCloud() {
-        hideSettingsModal(); if(!gAccessToken) { showNotification("غير مسجل دخول", "error"); return; } setSyncLoader(true); showNotification("جاري جلب البيانات...", "info");
-        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const data = await searchResp.json(); if(data.files && data.files.length > 0) { const fileId = data.files[0].id; const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const cloudContent = await fileResp.json(); if(cloudContent.smartNotesData) { allData = cloudContent.smartNotesData; saveData(); renderMainGrid(); showNotification("تم استعادة البيانات ✅", "success"); } } else { showNotification("لا توجد نسخة احتياطية", "info"); } } catch(e) { showNotification("فشل الجلب", "error"); } setSyncLoader(false);
+    async function forceSyncFromCloud(silent = false) {
+        if(!gAccessToken) { if(!silent) showNotification("غير مسجل دخول", "error"); return; } 
+        if(!silent) { hideSettingsModal(); showNotification("جاري جلب البيانات...", "info"); }
+        setSyncLoader(true);
+        document.getElementById('syncText').innerText = "تحميل...";
+
+        try { const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const data = await searchResp.json(); if(data.files && data.files.length > 0) { const fileId = data.files[0].id; const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); const cloudContent = await fileResp.json(); if(cloudContent.smartNotesData) { allData = cloudContent.smartNotesData; renderMainGrid(); if(!silent) showNotification("تم استعادة البيانات ✅", "success"); } } else { if(!silent) showNotification("لا توجد نسخة احتياطية", "info"); } } catch(e) { if(!silent) showNotification("فشل الجلب", "error"); } 
+        
+        setSyncLoader(false);
+        document.getElementById('syncText').innerText = "";
     }
 </script>  
 </body>  
