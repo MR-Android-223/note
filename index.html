@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
     <title>ملاحظاتي الذكية - Cloud Pro</title>  
     
-    <!-- مكتبة جوجل -->
     <script src="https://accounts.google.com/gsi/client" onload="initGoogleLib()" async defer></script>
-
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@700&display=swap" rel="stylesheet">  
     <style>  
         :root {  
@@ -18,7 +16,6 @@
             --pdf-color: #ef4444;
             --code-color: #0ea5e9;
             --image-color: #a855f7;
-            
             --primary-gradient: linear-gradient(135deg, #2563eb, #1d4ed8);
             --secondary-color: #7c3aed;   
             --success-color: #059669;  
@@ -33,7 +30,6 @@
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);  
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);  
             --radius: 18px;
-            
             --google-blue: #1a73e8;
             --google-hover: #1765cc;
         }  
@@ -60,7 +56,6 @@
             -webkit-user-select: text !important; user-select: text !important;  
         }  
 
-        /* --- Header Styling --- */  
         .header-content {  
             position: relative;  
             text-align: center;  
@@ -125,7 +120,6 @@
         }  
         .settings-btn:hover { background-color: rgba(0,0,0,0.05); }
 
-        /* حالة السحابة */
         .cloud-status {
             position: absolute; top: 15px; left: 60px; font-size: 0.8rem;
             color: var(--text-secondary); display: flex; align-items: center; gap: 5px;
@@ -140,7 +134,6 @@
         }
         #mainSelectBtn:hover { background-color: rgba(37, 99, 235, 0.1); }
 
-        /* --- Search --- */
         .search-container { margin-bottom: 25px; position: relative; }  
         #searchInput {  
             width: 100%; padding: 16px 20px; padding-left: 45px; 
@@ -178,7 +171,6 @@
         .toolbar-btn.cancel { background: white; color: var(--text-color); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }  
         .toolbar-btn.confirm { background: var(--danger-color); box-shadow: 0 2px 5px rgba(220, 38, 38, 0.3); }  
 
-        /* --- Cards Grid --- */  
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding-bottom: 20px; align-items: start; }  
         .note-card {  
             background-color: var(--card-color); border-radius: 20px; padding: 15px 10px; height: 160px;      
@@ -188,141 +180,60 @@
         }  
         .note-card.is-folder { background-color: #fffbeb; border-bottom-color: var(--folder-color) !important; border-radius: 20px 20px 0 0; }
         .note-card.is-folder::after { content: ''; position: absolute; top: -10px; right: 0; width: 40%; height: 10px; background-color: #fcd34d; border-radius: 10px 10px 0 0; opacity: 0.5; }
-        
-        /* FILE CARD STYLE */
         .note-card.is-file { background-color: #fff; border-bottom-color: var(--file-color) !important; }
-        
-        /* Image Preview Style */
-        .file-preview-img {
-            width: 100%;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 5px;
-            border: 1px solid #eee;
-        }
-
+        .file-preview-img { width: 100%; height: 80px; object-fit: cover; border-radius: 12px; margin-bottom: 5px; border: 1px solid #eee; }
         .note-card.drag-target { border: 3px dashed var(--primary-color) !important; background-color: #e0e7ff !important; transform: scale(1.05); }
         .note-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }  
         .note-card.dragging { opacity: 0.5; border: 2px dashed var(--text-secondary); transform: scale(0.95); }
         .note-card.selected { border: 3px solid var(--selection-color); background-color: #f0fdf4; transform: scale(0.98); }  
         .card-icon-big { font-size: 2.2rem; margin-bottom: 5px; margin-top: 5px; display: flex; align-items: center; justify-content: center; }
-        .card-title {  
-            font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; line-height: 1.4; color: var(--text-color);  
-            width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 2.8em;
-        }  
+        .card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; line-height: 1.4; color: var(--text-color); width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 2.8em; }  
         .card-count { background: var(--light-bg); padding: 2px 10px; border-radius: 20px; font-size: 0.75rem !important; color: var(--text-secondary) !important; font-weight: 600; margin-top: auto; margin-bottom: 5px; }  
-        .card-selection-icon {  
-            position: absolute; top: 5px; right: 5px; width: 22px; height: 22px; line-height: 20px; text-align: center; border-radius: 50%;  
-            border: 2px solid var(--selection-color); background: white; display: none; font-weight: bold; font-size: 14px; box-shadow: var(--shadow-sm); z-index: 5;
-        }  
+        .card-selection-icon { position: absolute; top: 5px; right: 5px; width: 22px; height: 22px; line-height: 20px; text-align: center; border-radius: 50%; border: 2px solid var(--selection-color); background: white; display: none; font-weight: bold; font-size: 14px; box-shadow: var(--shadow-sm); z-index: 5; }  
         .note-card.selected .card-selection-icon { background-color: var(--selection-color); color: white; display: block; }  
         .sort-handle { position: absolute; bottom: 5px; right: 5px; color: #cbd5e1; font-size: 1.2rem; padding: 5px; cursor: grab; z-index: 10; }
 
-        /* --- FAB & PASTE BTN --- */  
-        .fab {  
-            position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; border-radius: 20px; background: linear-gradient(135deg, var(--secondary-color), #9333ea);   
-            color: white; font-size: 2.5rem; line-height: 60px; text-align: center; border: none; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);   
-            cursor: pointer; z-index: 1000; transition: transform 0.2s;  
-        }  
+        .fab { position: fixed; bottom: 30px; left: 30px; width: 60px; height: 60px; border-radius: 20px; background: linear-gradient(135deg, var(--secondary-color), #9333ea); color: white; font-size: 2.5rem; line-height: 60px; text-align: center; border: none; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4); cursor: pointer; z-index: 1000; transition: transform 0.2s; }  
         .fab:active { transform: scale(0.9); }  
 
-        .paste-fab {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--success-color); color: white;
-            padding: 12px 24px; border-radius: 50px; border: none;
-            font-family: 'Tajawal'; font-weight: bold; font-size: 1.1rem;
-            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.4);
-            display: none; z-index: 2000; align-items: center; gap: 8px;
-            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        .paste-fab { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--success-color); color: white; padding: 12px 24px; border-radius: 50px; border: none; font-family: 'Tajawal'; font-weight: bold; font-size: 1.1rem; box-shadow: 0 10px 25px rgba(5, 150, 105, 0.4); display: none; z-index: 2000; align-items: center; gap: 8px; animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .paste-fab:active { transform: translateX(-50%) scale(0.95); }
 
-        /* --- Context Menus --- */  
-        #contextMenuOverlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 4999; display: none; background: transparent;
-        }
+        #contextMenuOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 4999; display: none; background: transparent; }
 
-        #contextMenu, #subNoteContextMenu {  
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.98); border: 1px solid var(--border-color);  
-            border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); padding: 10px; z-index: 5000; display: none; flex-direction: column; min-width: 220px; overflow: hidden; animation: menuPopup 0.15s ease-out forwards;  
-        }  
-        #createTypeMenu {
-            position: fixed; bottom: 100px; left: 30px; top: auto; right: auto; background-color: rgba(255, 255, 255, 0.98); border: 1px solid var(--border-color);
-            border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: 5px; z-index: 5000; display: none; flex-direction: column; min-width: 160px; transform-origin: bottom left; animation: fabPopup 0.15s ease-out forwards;
-        }
+        #contextMenu, #subNoteContextMenu { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.98); border: 1px solid var(--border-color); border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); padding: 10px; z-index: 5000; display: none; flex-direction: column; min-width: 220px; overflow: hidden; animation: menuPopup 0.15s ease-out forwards; }  
+        #createTypeMenu { position: fixed; bottom: 100px; left: 30px; top: auto; right: auto; background-color: rgba(255, 255, 255, 0.98); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); padding: 5px; z-index: 5000; display: none; flex-direction: column; min-width: 160px; transform-origin: bottom left; animation: fabPopup 0.15s ease-out forwards; }
         @keyframes menuPopup { from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }  
         @keyframes fabPopup { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-        .context-item {  
-            background: none; border: none; text-align: right; padding: 12px 15px; cursor: pointer; width: 100%; font-family: 'Tajawal', sans-serif; font-size: 0.95rem; color: var(--text-color); border-radius: 12px; font-weight: 600; display: flex; align-items: center; gap: 10px;  
-        }  
+        .context-item { background: none; border: none; text-align: right; padding: 12px 15px; cursor: pointer; width: 100%; font-family: 'Tajawal', sans-serif; font-size: 0.95rem; color: var(--text-color); border-radius: 12px; font-weight: 600; display: flex; align-items: center; gap: 10px; }  
         .context-item:hover { background-color: var(--light-bg); color: var(--primary-color); }  
         .context-item.delete { color: var(--danger-color); border-top: 1px solid #f1f5f9; margin-top: 5px; }  
         .context-item.copy-option { border-top: 1px solid #f1f5f9; margin-top: 5px; color: var(--success-color); }
 
-        /* --- Selection Menu Modal --- */
-        #selectionOptionsModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.5); z-index: 6000; 
-            justify-content: center; align-items: center; backdrop-filter: blur(3px);
-        }
-        .selection-menu-card {
-            background-color: white; 
-            width: 90%; max-width: 260px; 
-            padding: 20px; 
-            border-radius: 24px; 
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            display: flex; flex-direction: column; 
-            animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-align: center;
-        }
-        .selection-header {
-            text-align: center; margin-bottom: 15px;
-            font-weight: 800; color: var(--primary-color); font-size: 1.1rem;
-        }
+        #selectionOptionsModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 6000; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+        .selection-menu-card { background-color: white; width: 90%; max-width: 260px; padding: 20px; border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); display: flex; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; }
+        .selection-header { text-align: center; margin-bottom: 15px; font-weight: 800; color: var(--primary-color); font-size: 1.1rem; }
 
-        /* --- Modals --- */
-        .modal {  
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); 
-        }  
-        .modal-content {  
-            background-color: white; width: 100%; height: 100%; padding: 25px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);  
-        }  
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }  
+        .modal-content { background-color: white; width: 100%; height: 100%; padding: 25px; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }  
         @keyframes slideUp { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }  
-        .small-modal-content { 
-            height: auto !important; width: 90% !important; max-width: 320px !important; 
-            text-align: center; padding: 25px; border-radius: 24px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        }  
+        .small-modal-content { height: auto !important; width: 90% !important; max-width: 320px !important; text-align: center; padding: 25px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }  
         .modal-message { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; line-height: 1.6; color: var(--text-color); }  
-        
-        .modal-input-area {  
-            width: 100%; flex-grow: 1; padding: 15px; border: 2px solid var(--primary-color); border-radius: 12px; font-family: 'Tajawal', sans-serif; font-size: 1.3rem; text-align: right; margin-bottom: 20px;  
-            background-color: #fdfdfd; color: var(--text-color); resize: none; overflow-y: auto; white-space: pre-wrap; line-height: 1.6;
-        }
+        .modal-input-area { width: 100%; flex-grow: 1; padding: 15px; border: 2px solid var(--primary-color); border-radius: 12px; font-family: 'Tajawal', sans-serif; font-size: 1.3rem; text-align: right; margin-bottom: 20px; background-color: #fdfdfd; color: var(--text-color); resize: none; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; }
         .modal-input-single { width: 100%; padding: 15px; border: 2px solid var(--border-color); border-radius: 12px; font-family: 'Tajawal', sans-serif; font-size: 1.1rem; text-align: right; margin-bottom: 20px; background-color: #f8fafc; }
         .modal-input-single:focus { border-color: var(--primary-color); background-color: white; }
-        
         .modal-actions { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }  
-        .modal-btn { 
-            border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; 
-            font-weight: 700; font-family: 'Tajawal', sans-serif; font-size: 1rem; flex: 1; 
-            transition: transform 0.1s;
-        }  
+        .modal-btn { border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; font-weight: 700; font-family: 'Tajawal', sans-serif; font-size: 1rem; flex: 1; transition: transform 0.1s; }  
         .modal-btn:active { transform: scale(0.97); }
-
         .modal-btn.confirm-primary { background: var(--primary-gradient); color: white; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }  
         .modal-btn.confirm { background: var(--danger-color); color: white; }  
         .modal-btn.cancel { background-color: var(--light-bg); color: var(--text-secondary); }  
         .modal-btn.paste-action { background-color: var(--success-color); color: white; }
         .modal-btn.confirm-copy { background-color: var(--secondary-color); color: white; }
 
-        /* --- وضع التعديل النظيف --- */
         .modal.clean-mode .modal-content { background-color: #ffffff; padding: 0; border-radius: 0; height: 100%; width: 100%; max-width: 100%; box-shadow: none; overflow: hidden; display: flex; flex-direction: column; }
         .modal.clean-mode .modal-input-area { border: none; background: transparent; font-size: 1rem; font-weight: 500; line-height: 2; flex-grow: 1; height: 100%; width: 100%; box-shadow: none; padding: 20px; padding-top: 60px; margin: 0; border-radius: 0; overflow-y: auto; }
         
-        /* --- Floating Toolbar --- */
         .floating-toolbar { position: absolute; top: 15px; left: 15px; display: flex; gap: 8px; z-index: 20; }
         .tool-btn { width: 40px; height: 40px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-sm); font-size: 1.2rem; border: none; color: var(--text-color); }
         .text-search-toolbar { position: absolute; top: 10px; left: 10px; right: 10px; background: white; border-radius: 12px; padding: 8px; box-shadow: var(--shadow-md); display: none; align-items: center; gap: 8px; z-index: 25; border: 1px solid var(--border-color); }
@@ -330,7 +241,6 @@
         .text-search-nav { background: #e0e7ff; border: none; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--primary-color); }
         .text-search-close { background: #fee2e2; color: #dc2626; border: none; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; }
 
-        /* --- Settings Modal --- */
         #settingsModal .modal-content { padding: 20px; max-width: 320px !important; width: 90%; height: auto !important; border-radius: 24px; margin: auto; }
         .settings-title-header { text-align: center; font-size: 1.2rem; font-weight: 800; color: #1e293b; margin-bottom: 20px; margin-top: 0; }
         .settings-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background-color: transparent; border-bottom: 1px solid #f1f5f9; cursor: pointer; font-weight: 600; color: var(--text-color); border-radius: 12px; font-size: 0.95rem; margin-bottom: 5px; }
@@ -346,7 +256,6 @@
         #newSubNoteInput { flex-grow: 1; height: 50px; padding: 12px; border: 2px solid var(--border-color); border-radius: 14px; font-family: 'Tajawal', sans-serif; font-size: 1rem; text-align: right; }  
         .add-btn { background: var(--primary-gradient); color: white; border: none; border-radius: 14px; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }  
 
-        /* --- Drag Option Cards Styling --- */
         .drag-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
         .drag-option-card { background-color: white; border-radius: 16px; padding: 20px 10px; text-align: center; border: 2px solid var(--border-color); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
         .drag-option-card.move-option { border-color: var(--primary-color); background-color: #eff6ff; }
@@ -357,92 +266,48 @@
         .note-card.dragging-mobile { position: fixed; z-index: 9999; opacity: 0.9; background-color: #e0e7ff; border: 3px solid var(--primary-color); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); pointer-events: none; width: 150px; height: 150px; transform-origin: center center; }
         .note-card.drag-target-hover { transform: scale(1.05); border: 3px dashed var(--success-color) !important; background-color: #dcfce7 !important; }
 
-        /* --- FILE VIEWER MODAL (NEW) --- */
-        #fileViewerModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background-color: rgba(0,0,0,0.95); z-index: 7000; 
-            justify-content: center; align-items: center; flex-direction: column;
-        }
-        .file-viewer-content {
-            max-width: 95%; max-height: 85%; display: flex; 
-            justify-content: center; align-items: center;
-        }
-        .file-viewer-content img, .file-viewer-content iframe {
-            max-width: 100%; max-height: 100%; border-radius: 8px; border: none;
-        }
+        #fileViewerModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); z-index: 7000; justify-content: center; align-items: center; flex-direction: column; }
+        .file-viewer-content { max-width: 95%; max-height: 85%; display: flex; justify-content: center; align-items: center; }
+        .file-viewer-content img, .file-viewer-content iframe { max-width: 100%; max-height: 100%; border-radius: 8px; border: none; }
         .file-viewer-content iframe { width: 95vw; height: 80vh; background: white; }
-        
-        .viewer-close-btn {
-            position: absolute; top: 20px; left: 20px; 
-            color: white; font-size: 2rem; cursor: pointer; z-index: 7001;
-            background: rgba(255,255,255,0.2); width: 45px; height: 45px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        }
+        .viewer-close-btn { position: absolute; top: 20px; left: 20px; color: white; font-size: 2rem; cursor: pointer; z-index: 7001; background: rgba(255,255,255,0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        /* --- GOOGLE STYLES --- */
-        #loginOverlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #f0f2f5;
-            z-index: 6000; display: none; flex-direction: column;
-            align-items: center; justify-content: center;
-            padding: 20px;
-        }
-        .login-card {
-            background: white; padding: 40px; border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;
-            width: 100%; max-width: 400px; font-family: 'Segoe UI', sans-serif;
-        }
+        /* FIX #3: saveConfirmModal backdrop close support */
+        #saveConfirmModal { cursor: pointer; }
+        #saveConfirmModal .small-modal-content { cursor: default; }
+
+        #loginOverlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #f0f2f5; z-index: 6000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .login-card { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; font-family: 'Segoe UI', sans-serif; }
         .google-logo { width: 75px; margin-bottom: 10px; }
-        .google-btn {
-            display: flex; align-items: center; justify-content: center;
-            background-color: var(--google-blue); color: white; border: none;
-            padding: 2px; border-radius: 4px; font-size: 14px;
-            font-weight: 500; cursor: pointer; width: 100%;
-            transition: background-color 0.3s; text-decoration: none;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        .google-btn { display: flex; align-items: center; justify-content: center; background-color: var(--google-blue); color: white; border: none; padding: 2px; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; transition: background-color 0.3s; text-decoration: none; font-family: 'Segoe UI', sans-serif; }
         .google-btn:hover { background-color: var(--google-hover); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-        .google-icon-wrapper {
-            background: white; padding: 8px; border-radius: 2px; margin: 1px;
-            display: flex; align-items: center; justify-content: center; height: 38px; width: 38px;
-        }
+        .google-icon-wrapper { background: white; padding: 8px; border-radius: 2px; margin: 1px; display: flex; align-items: center; justify-content: center; height: 38px; width: 38px; }
         .google-icon { width: 18px; height: 18px; }
         .btn-text { flex: 1; text-align: center; }
         .user-profile-img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
-        .sync-loader {
-            display: none; width: 16px; height: 16px; border: 2px solid #ddd;
-            border-top: 2px solid var(--primary-color); border-radius: 50%;
-            animation: spin 0.8s linear infinite; margin-left: 10px;
-        }
+        .sync-loader { display: none; width: 16px; height: 16px; border: 2px solid #ddd; border-top: 2px solid var(--primary-color); border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 10px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
     </style>  
 </head>  
 <body>  
 
-<!-- File Viewer Modal -->
 <div id="fileViewerModal">
     <div class="viewer-close-btn" onclick="closeFileViewer()">×</div>
     <div id="fileViewerContainer" class="file-viewer-content"></div>
 </div>
 
-<!-- Google Login Overlay -->
 <div id="loginOverlay">
     <div class="login-card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" class="google-logo">
         <h2 style="font-size:24px; font-weight:400; margin:0 0 8px 0; color:#202124;">تسجيل الدخول مطلوب</h2>
         <p style="color:#5f6368; margin-bottom:30px;">التخزين السحابي فقط (Google Drive)</p>
-
         <a href="#" class="google-btn" onclick="event.preventDefault(); startGoogleLogin()">
             <div class="google-icon-wrapper">
                 <img class="google-icon" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="G logo"/>
             </div>
             <span class="btn-text" id="loginBtnText">تسجيل الدخول للمزامنة</span>
         </a>
-
-        <div style="margin-top:20px; font-size:12px; color:#666;">
-            لا يتم حفظ أي بيانات على هذا الجهاز. <br> كل شيء يحفظ مباشرة في Google Drive.
-        </div>
+        <div style="margin-top:20px; font-size:12px; color:#666;">لا يتم حفظ أي بيانات على هذا الجهاز. <br> كل شيء يحفظ مباشرة في Google Drive.</div>
         <div id="loginStatus" style="margin-top:20px; font-size:13px; color:var(--primary-color); display:none;">جاري الاتصال...</div>
     </div>
 </div>
@@ -453,12 +318,9 @@
         <div id="syncLoader" class="sync-loader"></div>
         <span id="syncText"></span>
     </div>
-
-    <!-- زر التحديد الرئيسي -->
     <div id="mainSelectionToolbar" class="main-selection-toolbar">  
         <button id="mainSelectBtn" onclick="toggleMainSelectionMode(true)">تحديد</button>  
     </div> 
-    
     <h1>ملاحظاتي الذكية</h1>  
     <p class="author-name">Mohammad Al Boushi</p>  
 </div>  
@@ -468,31 +330,22 @@
     <span id="currentPathTitle" class="current-path" style="margin-right: auto;"></span>
 </div>
 
-<!-- تم إضافة autocomplete="off" لإصلاح مشكلة الروابط -->
 <div class="search-container">  
     <span id="clearSearchBtn" class="clear-search-btn" onclick="clearSearch()">×</span>
     <input type="text" id="searchInput" placeholder="🔍  ابحث في العناوين..." oninput="searchNotes()" autocomplete="off">  
 </div>  
 
-<!-- Context Menu Overlay -->
 <div id="contextMenuOverlay" onclick="closeContextMenu()"></div>
 
 <div id="contextMenu">  
-    <!-- أزرار القائمة تتغير ديناميكياً بناءً على التحديد -->
     <button class="context-item" id="lockUnlockBtn" onclick="handleMenuAction('toggleLock')">🔒 قفل/فتح</button>  
     <button class="context-item" id="ctxMoveBtn" onclick="handleMenuAction('move')">📂 نقل</button>
     <button class="context-item" id="ctxCopyBtn" onclick="handleMenuAction('copy')">📄 نسخ</button>
-    
     <button id="ctxAddToHomeBtn" class="context-item" onclick="handleMenuAction('moveToRoot')" style="display:none;">🏠 إضافة للواجهة الرئيسية</button>
-    
-    <!-- Copy Text Content (Only for single text note) -->
-    <button id="ctxCopyContentBtn" class="context-item" onclick="handleMenuAction('copyText')" style="display:none;">📄 نسخ المحتوى</button>
-    
+    <!-- FIX #2: Added handler for copyText action -->
+    <button id="ctxCopyContentBtn" class="context-item copy-option" onclick="handleMenuAction('copyText')" style="display:none;">📋 نسخ المحتوى</button>
     <button id="ctxDownloadBtn" class="context-item" onclick="handleMenuAction('downloadFile')" style="display:none; color:var(--primary-color);">⬇️ تنزيل الملف</button>
-    
-    <!-- Edit Name (Only single) -->
     <button class="context-item" id="ctxEditBtn" onclick="handleMenuAction('edit')">✏️ تعديل الاسم</button>  
-
     <button class="context-item delete" onclick="handleMenuAction('delete')">🗑️ حذف</button>
 </div>  
 
@@ -508,7 +361,6 @@
     <button class="context-item" onclick="triggerFileUpload()">📎 إضافة ملف</button>
 </div>
 
-<!-- Hidden File Input for the system picker -->
 <input type="file" id="fileUploadInput" multiple style="display:none;" onchange="handleFileUpload(event)">
 
 <div id="notesGrid" class="grid-container"></div>  
@@ -516,23 +368,18 @@
 <button id="mainFab" class="fab" onclick="showCreateMenu()">+</button> 
 <button id="pasteFloatingBtn" class="paste-fab" onclick="pasteItemsHere()">📋 لصق هنا</button>
 
-<!-- NEW: SELECTION OPTIONS MODAL (CLEANED) -->
 <div id="selectionOptionsModal" onclick="if(event.target.id === 'selectionOptionsModal') document.getElementById('selectionOptionsModal').style.display = 'none'">
     <div class="selection-menu-card">
         <div class="selection-header">خيارات التحديد</div>
-        
         <button class="context-item" onclick="handleSelectionAction('selectAll')">
             <span id="selAllText">✅ تحديد الكل</span>
         </button>
-
         <button class="context-item" onclick="handleSelectionAction('individual')">
             <span>👆 تحديد فردي</span>
         </button>
-
         <button class="context-item delete" onclick="handleSelectionAction('cancelAll')">
             ❌ إلغاء كل العمليات
         </button>
-
         <button class="context-item" style="justify-content:center; color:var(--text-secondary); margin-top:10px; border-top:1px solid #f1f5f9;" onclick="document.getElementById('selectionOptionsModal').style.display = 'none'">
             إغلاق
         </button>
@@ -588,16 +435,13 @@
 <div id="settingsModal" class="modal" onclick="if(event.target.id === 'settingsModal') hideSettingsModal()">  
     <div class="modal-content">  
         <h2 class="settings-title-header">إعدادات التطبيق</h2>  
-        
         <div id="googleDriveSection">
             <div style="text-align:center; font-size:0.9rem; color:#64748b; margin-bottom:5px;">التخزين السحابي (نشط دائماً)</div>
-            
             <div id="googleLoginBtnArea">
                 <div class="settings-item" onclick="openLoginOverlay()" style="color:var(--google-blue);">
                     <span class="settings-title">تسجيل الدخول (Google)</span> <span class="settings-icon">☁️</span>
                 </div>
             </div>
-
             <div id="googleSyncActions" style="display:none;">
                 <div class="settings-item" onclick="forceSyncFromCloud()"> 
                     <span class="settings-title">إعادة تحميل من السحابة</span> <span class="settings-icon">🔄</span> 
@@ -605,38 +449,31 @@
             </div>
             <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">
         </div>
-
-        <!-- أزرار التصدير والاستيراد الجديدة -->
         <div class="settings-item" onclick="exportDataAuto()"> <span class="settings-title">تصدير ملف (JSON)</span> <span class="settings-icon">📥</span> </div>  
         <div class="settings-item" onclick="document.getElementById('importFile').click()"> <span class="settings-title">استيراد ملف (JSON)</span> <span class="settings-icon">📂</span> </div>  
         <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importDataWrapper(event)">  
-        
         <div class="settings-item" onclick="exportDataManual()"> <span class="settings-title">نسخ يدوي (Text)</span> <span class="settings-icon">📝</span> </div>
         <div class="settings-item" onclick="importDataPaste()"> <span class="settings-title">استيراد يدوي (Paste)</span> <span class="settings-icon">📋</span> </div>
-
         <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">  
-
         <div id="setPassBtn" class="settings-item" onclick="setAppPassword()">  
             <span class="settings-title">تعيين كلمة مرور للتطبيق</span> <span class="settings-icon">🔒</span>  
         </div> 
         <div id="removePassBtn" class="settings-item delete-all" onclick="removeAppPassword()" style="display:none; color: var(--danger-color);">  
             <span class="settings-title">حذف كلمة المرور</span> <span class="settings-icon">🔓</span>  
         </div>
-        
         <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 10px 0;">  
-        
         <div id="googleLogoutContainer" style="display:none; margin-top:5px; border-top:1px solid #eee;">
              <div class="settings-item" onclick="handleGoogleLogout()"> 
                 <span class="settings-title" style="color:#64748b;">تسجيل خروج Google (مسح البيانات)</span> 
                 <span class="settings-icon" id="googleLogoutIcon">🚪</span> 
             </div>
         </div>
-
         <button class="modal-btn cancel" style="margin-top:10px; width:100%;" onclick="hideSettingsModal()">إغلاق</button>
     </div>  
 </div>  
 
-<div id="saveConfirmModal" class="modal">  
+<!-- FIX #3: saveConfirmModal closes on backdrop click -->
+<div id="saveConfirmModal" class="modal" onclick="if(event.target.id==='saveConfirmModal') resolveSaveConfirm(false)">  
     <div class="modal-content small-modal-content">  
         <p class="modal-message">هل تريد حفظ التعديلات؟</p>  
         <div class="modal-actions">  
@@ -691,9 +528,8 @@
 </div>
 
 <script>  
-    // --- Data Management (Hybrid: RAM + LocalStorage) ---
     const APP_PASS_KEY = 'smartNotes_appPass';
-    const LOCAL_DATA_KEY = 'smartNotes_localData'; // New Local Cache Key
+    const LOCAL_DATA_KEY = 'smartNotes_localData';
     
     let allData = [];   
     let currentFolderId = null; 
@@ -701,12 +537,10 @@
     let searchMatches = []; let currentSearchIndex = -1;
     let historyStack = []; let historyIndex = -1; let originalContent = ""; 
     
-    // Clipboard Variables
     let itemsClipboard = [];
     let isPasteMode = false;
     let clipboardAction = 'move'; 
 
-    // --- GOOGLE API CONFIG ---
     const GOOGLE_CLIENT_ID = '979816526016-ukb9vqtb6u2hlutombpf8rumbjr3o2ua.apps.googleusercontent.com';
     const SCOPES = 'https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/userinfo.profile';
     const FILENAME = 'smart_notes_cloud_v1.json'; 
@@ -715,7 +549,13 @@
     let saveTimeout = null; 
     let isRetry = false; 
 
-    // --- History & Back Button Control ---
+    // ─────────────────────────────────────────
+    // FIX #1: generateId — لا يستخدم Math.random() مع parseInt
+    // ─────────────────────────────────────────
+    function generateId() {
+        return Date.now() * 1000 + Math.floor(Math.random() * 1000);
+    }
+
     function getParentFolderId(list, targetId, parentId = null) {
         for (let item of list) {
             if (item.id === targetId) return parentId;
@@ -727,7 +567,15 @@
         return undefined; 
     }
 
+    // ─────────────────────────────────────────
+    // FIX #4 & #5: popstate لا يسبب دورة + يلغي isPasteMode
+    // ─────────────────────────────────────────
+    let _isHandlingPopstate = false;
     window.addEventListener('popstate', function(event) {
+        if (_isHandlingPopstate) return;
+        _isHandlingPopstate = true;
+        setTimeout(() => { _isHandlingPopstate = false; }, 100);
+
         if (document.getElementById('fileViewerModal').style.display === 'flex') {
             closeFileViewer();
         }
@@ -735,66 +583,100 @@
             closeContextMenu(); 
         }
         else if (document.getElementById('inputModal').style.display === 'flex') { 
-            if (activeInputModalMode === 'edit_clean') { checkSaveChanges(); } else { hideInputModal(false); }
+            if (activeInputModalMode === 'edit_clean') { checkSaveChanges(); } 
+            else { hideInputModal(false); }
         } 
-        else if (document.getElementById('detailsModal').style.display === 'flex') { closeModalInternal(); } 
-        else if (document.getElementById('searchInput').value !== '') { clearSearch(); }
-        else if (document.getElementById('selectionOptionsModal').style.display === 'flex') { document.getElementById('selectionOptionsModal').style.display = 'none'; }
+        else if (document.getElementById('detailsModal').style.display === 'flex') { 
+            closeModalInternal(); 
+        } 
+        else if (document.getElementById('searchInput').value !== '') { 
+            clearSearch(); 
+        }
+        else if (document.getElementById('selectionOptionsModal').style.display === 'flex') { 
+            document.getElementById('selectionOptionsModal').style.display = 'none'; 
+        }
+        // FIX #5: إلغاء وضع اللصق عند الرجوع
+        else if (isPasteMode) {
+            isPasteMode = false;
+            itemsClipboard = [];
+            renderMainGrid();
+        }
         else if (currentFolderId !== null) {
             const parentId = getParentFolderId(allData, currentFolderId);
             currentFolderId = (parentId === undefined) ? null : parentId; 
             renderMainGrid();
         }
-        else if (document.getElementById('loginOverlay').style.display === 'flex') { /* Prevent back */ }
+        else if (document.getElementById('loginOverlay').style.display === 'flex') { 
+            // منع الرجوع
+        }
+    });
+
+    // ─────────────────────────────────────────
+    // FIX #8: إغلاق القوائم بـ Escape على Desktop
+    // ─────────────────────────────────────────
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (document.getElementById('contextMenu').style.display === 'flex') { closeContextMenu(); }
+            else if (document.getElementById('createTypeMenu').style.display === 'flex') { document.getElementById('createTypeMenu').style.display = 'none'; }
+            else if (document.getElementById('subNoteContextMenu').style.display === 'flex') { document.getElementById('subNoteContextMenu').style.display = 'none'; }
+        }
     });
 
     function pushState() { window.history.pushState({ open: true }, ""); }
-    function findNoteById(list, id) { id = parseInt(id); for (let item of list) { if (parseInt(item.id) === id) return item; if (item.type === 'folder' && item.items) { const found = findNoteById(item.items, id); if (found) return found; } } return null; }
+    function findNoteById(list, id) { 
+        // FIX #1: مقارنة بدون parseInt لتجنب كسر float IDs
+        for (let item of list) { 
+            if (item.id == id) return item; 
+            if (item.type === 'folder' && item.items) { 
+                const found = findNoteById(item.items, id); 
+                if (found) return found; 
+            } 
+        } 
+        return null; 
+    }
     function getCurrentList() { if (currentFolderId === null) return allData; const folder = findNoteById(allData, currentFolderId); return folder ? folder.items : []; }
     
-    // --- UPDATED SAVE & LOAD LOGIC ---
     function saveData() { 
-        // 1. Save to Local Storage Immediately (Fastest)
         localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData));
-        
-        // 2. Schedule Cloud Upload
         if(saveTimeout) clearTimeout(saveTimeout);
         document.getElementById('syncText').innerText = "جاري الحفظ...";
         setSyncLoader(true);
         saveTimeout = setTimeout(() => {
-            forceUploadToDrive(true); // Silent Mode
+            forceUploadToDrive(true);
         }, 1000);
     } 
     
     function loadData() { 
-        // 1. Load from Local Cache First (Instant access)
         const cachedData = localStorage.getItem(LOCAL_DATA_KEY);
         if (cachedData) {
             try {
                 allData = JSON.parse(cachedData);
-                renderMainGrid(); // Render immediately
+                renderMainGrid();
             } catch (e) { console.error("Cache error", e); }
         }
-
-        // 2. Try to sync with cloud in background
         if(gAccessToken) {
-            forceSyncFromCloud(true); // Silent sync
+            forceSyncFromCloud(true);
         } else {
-            // Only show login overlay if NO local data exists
             if (!cachedData || allData.length === 0) {
                  document.getElementById('loginOverlay').style.display = 'flex';
             }
         }
     }
 
-    let activeCardId = null; let currentNoteId = null; let activeSubNoteIndex = null; let isMainSelectionMode = false; let selectedMainIds = new Set(); let isSelectionMode = false; let selectedSubIndices = new Set();
+    let activeCardId = null; let currentNoteId = null; let activeSubNoteIndex = null; 
+    let isMainSelectionMode = false; let selectedMainIds = new Set(); 
+    let isSelectionMode = false; let selectedSubIndices = new Set();
+
     document.addEventListener('DOMContentLoaded', () => { 
         document.getElementById('searchInput').value = '';
-        
-        loadData(); // Start the load process
-        
+        loadData(); 
         document.getElementById('searchInput').addEventListener('focus', function() { pushState(); }); 
-        document.getElementById('modalInputArea').addEventListener('input', function(e) { saveHistory(this.value); }); 
+        document.getElementById('modalInputArea').addEventListener('input', function(e) { 
+            saveHistory(this.value);
+            // FIX #9: إعادة تعيين searchMatches عند تغيير النص
+            searchMatches = [];
+            currentSearchIndex = -1;
+        }); 
     });
 
     function initHistory(val) { historyStack = [val]; historyIndex = 0; updateUndoRedoButtons(); }
@@ -821,20 +703,17 @@
             fab.style.display = 'block';
         }
 
-        // NOTE: We allow viewing grid even without gAccessToken if local data exists
-
         if (filteredList.length === 0) { grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; margin-top:20px;">لا توجد عناصر.</p>'; }
         filteredList.forEach(item => {
             const card = document.createElement('div'); card.className = `note-card ${item.type === 'folder' ? 'is-folder' : ''}`;
             if(item.type === 'file') card.classList.add('is-file'); 
-            
             card.setAttribute('data-id', item.id); card.setAttribute('data-type', item.type); card.setAttribute('draggable', 'true'); 
             let icon = item.type === 'folder' ? '📁' : '📄'; 
             if(item.type === 'file') icon = '📎'; 
             if (item.isLocked) icon = '🔒';
             
             let imagePreview = '';
-            if(item.type === 'file' && item.content.startsWith('data:image')) {
+            if(item.type === 'file' && item.content && item.content.startsWith('data:image')) {
                 imagePreview = `<img src="${item.content}" class="file-preview-img" style="border-radius:12px; height:80px; width:100%; object-fit:cover; margin-bottom:5px;">`;
                 icon = ''; 
             }
@@ -852,7 +731,8 @@
                 const count = item.items.length; 
                 countLabel = `<div class="card-count">${count} عنصر</div>`;
             } else if(item.type === 'file') {
-                countLabel = `<div class="card-count" style="direction:ltr">${formatFileSize(item.content.length * 0.75)}</div>`;
+                const size = item.content ? item.content.length * 0.75 : 0;
+                countLabel = `<div class="card-count" style="direction:ltr">${formatFileSize(size)}</div>`;
             } else {
                 const count = item.items.length; 
                 countLabel = `<div class="card-count">${count} ملاحظة</div>`;
@@ -912,11 +792,7 @@
             });
 
             card.addEventListener('touchend', () => clearTimeout(pressTimer)); 
-            
-            card.addEventListener('touchmove', () => {
-                clearTimeout(pressTimer);
-                isLongPress = false; 
-            });
+            card.addEventListener('touchmove', () => { clearTimeout(pressTimer); isLongPress = false; });
             
             addDragEvents(card, item); grid.appendChild(card);
         });
@@ -937,24 +813,19 @@
     let mobileDragEl = null; let mobileDragClone = null; let mobileDragStartX = 0; let mobileDragStartY = 0; let lastTargetEl = null; let dragSrcId = null; let dragSrcEl = null; 
     function addDragEvents(card, item) { card.addEventListener('dragstart', handleDragStart); card.addEventListener('dragenter', handleDragEnter); card.addEventListener('dragover', handleDragOver); card.addEventListener('dragleave', handleDragLeave); card.addEventListener('drop', handleDrop); card.addEventListener('dragend', handleDragEnd); const handle = card.querySelector('.sort-handle'); if(handle) { handle.addEventListener('touchstart', (e) => handleTouchStart(e, card), {passive: false}); handle.addEventListener('touchmove', (e) => handleTouchMove(e), {passive: false}); handle.addEventListener('touchend', (e) => handleTouchEnd(e), {passive: false}); } }
     function showDragActionModal() { document.getElementById('dragActionModal').style.display = 'flex'; return new Promise(resolve => { window.resolveDragAction = (action) => { document.getElementById('dragActionModal').style.display = 'none'; resolve(action); }; }); }
-    function handleDragStart(e) { dragSrcEl = this; dragSrcId = parseInt(this.getAttribute('data-id')); this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragSrcId); }
+    function handleDragStart(e) { dragSrcEl = this; dragSrcId = this.getAttribute('data-id'); this.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', dragSrcId); }
     function handleDragOver(e) { if (e.preventDefault) e.preventDefault(); return false; }
     function handleDragEnter(e) { if (this === dragSrcEl) return; this.classList.add('drag-target'); }
     function handleDragLeave(e) { this.classList.remove('drag-target'); }
-    async function handleDrop(e) { e.stopPropagation(); const targetId = parseInt(this.getAttribute('data-id')); const targetType = this.getAttribute('data-type'); if (dragSrcId === targetId) return false; document.querySelectorAll('.note-card').forEach(c => c.classList.remove('drag-target')); if (targetType === 'folder') { const action = await showDragActionModal(); if (action === 'move') { moveItemsToFolder(targetId); } else if (action === 'swap') { reorderItems(dragSrcId, targetId); } } else { reorderItems(dragSrcId, targetId); } return false; }
+    async function handleDrop(e) { e.stopPropagation(); const targetId = this.getAttribute('data-id'); const targetType = this.getAttribute('data-type'); if (dragSrcId == targetId) return false; document.querySelectorAll('.note-card').forEach(c => c.classList.remove('drag-target')); if (targetType === 'folder') { const action = await showDragActionModal(); if (action === 'move') { moveItemsToFolder(targetId); } else if (action === 'swap') { reorderItems(dragSrcId, targetId); } } else { reorderItems(dragSrcId, targetId); } return false; }
     function handleDragEnd(e) { this.classList.remove('dragging'); document.querySelectorAll('.note-card').forEach(c => c.classList.remove('drag-target')); }
     
     function handleTouchStart(e, card) { 
         e.preventDefault(); const touch = e.touches[0]; mobileDragEl = card; 
-        dragSrcId = parseInt(card.getAttribute('data-id')); 
-        
+        dragSrcId = card.getAttribute('data-id'); 
         let isGroupDrag = false;
-        if(selectedMainIds.has(dragSrcId) && selectedMainIds.size > 1) {
-             isGroupDrag = true;
-        }
-
+        if(selectedMainIds.has(dragSrcId) && selectedMainIds.size > 1) { isGroupDrag = true; }
         mobileDragClone = card.cloneNode(true); 
-        
         if(isGroupDrag) {
              const badge = document.createElement('div');
              badge.style.cssText = "position:absolute; top:-10px; right:-10px; background:red; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:2px solid white;";
@@ -963,110 +834,77 @@
              mobileDragClone.style.boxShadow = "0 25px 50px -12px rgba(0, 0, 0, 0.4)";
              mobileDragClone.style.transform = "rotate(5deg)";
         }
-
         mobileDragClone.classList.add('dragging-mobile'); document.body.appendChild(mobileDragClone); updateClonePosition(touch.clientX, touch.clientY); card.style.opacity = '0.3'; 
     }
-
     function handleTouchMove(e) { if (!mobileDragClone) return; e.preventDefault(); const touch = e.touches[0]; updateClonePosition(touch.clientX, touch.clientY); mobileDragClone.style.display = 'none'; let elementBelow = document.elementFromPoint(touch.clientX, touch.clientY); mobileDragClone.style.display = 'block'; if (!elementBelow) return; let targetCard = elementBelow.closest('.note-card'); if (lastTargetEl && lastTargetEl !== targetCard) { lastTargetEl.classList.remove('drag-target-hover'); } if (targetCard && targetCard !== mobileDragEl) { targetCard.classList.add('drag-target-hover'); lastTargetEl = targetCard; } else { lastTargetEl = null; } }
-    async function handleTouchEnd(e) { if (!mobileDragClone) return; mobileDragClone.remove(); mobileDragClone = null; if (mobileDragEl) mobileDragEl.style.opacity = '1'; if (lastTargetEl) { lastTargetEl.classList.remove('drag-target-hover'); const targetId = parseInt(lastTargetEl.getAttribute('data-id')); const targetType = lastTargetEl.getAttribute('data-type'); if (targetType === 'folder') { const action = await showDragActionModal(); if (action === 'move') { moveItemsToFolder(targetId); } else if (action === 'swap') { reorderItems(dragSrcId, targetId); } } else { reorderItems(dragSrcId, targetId); } } mobileDragEl = null; lastTargetEl = null; }
+    async function handleTouchEnd(e) { if (!mobileDragClone) return; mobileDragClone.remove(); mobileDragClone = null; if (mobileDragEl) mobileDragEl.style.opacity = '1'; if (lastTargetEl) { lastTargetEl.classList.remove('drag-target-hover'); const targetId = lastTargetEl.getAttribute('data-id'); const targetType = lastTargetEl.getAttribute('data-type'); if (targetType === 'folder') { const action = await showDragActionModal(); if (action === 'move') { moveItemsToFolder(targetId); } else if (action === 'swap') { reorderItems(dragSrcId, targetId); } } else { reorderItems(dragSrcId, targetId); } } mobileDragEl = null; lastTargetEl = null; }
     function updateClonePosition(x, y) { mobileDragClone.style.left = (x - 75) + 'px'; mobileDragClone.style.top = (y - 75) + 'px'; }
     
     function moveItemsToFolder(targetFolderId) { 
         const list = getCurrentList(); const targetFolder = findNoteById(allData, targetFolderId); 
         if (!targetFolder || targetFolder.type !== 'folder') return; 
-        
         let itemsToMove = []; 
         if (selectedMainIds.size > 0 && selectedMainIds.has(dragSrcId)) { 
-            itemsToMove = list.filter(n => selectedMainIds.has(n.id) && n.id !== targetFolderId); 
+            itemsToMove = list.filter(n => selectedMainIds.has(n.id) && n.id != targetFolderId); 
         } else { 
-            itemsToMove = list.filter(n => n.id === dragSrcId && n.id !== targetFolderId); 
+            itemsToMove = list.filter(n => n.id == dragSrcId && n.id != targetFolderId); 
         } 
-        
         if (itemsToMove.length === 0) return; 
-        
-        if (currentFolderId === null) {
-            allData = allData.filter(n => !itemsToMove.includes(n)); 
-        } else { 
-            const currentFolder = findNoteById(allData, currentFolderId); 
-            currentFolder.items = currentFolder.items.filter(n => !itemsToMove.includes(n)); 
-        } 
-        
+        if (currentFolderId === null) { allData = allData.filter(n => !itemsToMove.includes(n)); } 
+        else { const currentFolder = findNoteById(allData, currentFolderId); currentFolder.items = currentFolder.items.filter(n => !itemsToMove.includes(n)); } 
         itemsToMove.forEach(item => targetFolder.items.unshift(item)); 
-        
         saveData(); 
-        if(selectedMainIds.has(dragSrcId)) {
-             toggleMainSelectionMode(false);
-        } else {
-             renderMainGrid();
-        }
+        if(selectedMainIds.has(dragSrcId)) { toggleMainSelectionMode(false); } 
+        else { renderMainGrid(); }
     }
 
-    function reorderItems(srcId, targetId) { let list = getCurrentList(); const srcIndex = list.findIndex(n => n.id === srcId); const targetIndex = list.findIndex(n => n.id === targetId); if (srcIndex < 0 || targetIndex < 0 || srcIndex === targetIndex) return; const [movedItem] = list.splice(srcIndex, 1); list.splice(targetIndex, 0, movedItem); saveData(); renderMainGrid(); }
+    function reorderItems(srcId, targetId) { 
+        let list = getCurrentList(); 
+        const srcIndex = list.findIndex(n => n.id == srcId); 
+        const targetIndex = list.findIndex(n => n.id == targetId); 
+        if (srcIndex < 0 || targetIndex < 0 || srcIndex === targetIndex) return; 
+        const [movedItem] = list.splice(srcIndex, 1); list.splice(targetIndex, 0, movedItem); 
+        saveData(); renderMainGrid(); 
+    }
     
     function openNoteDetails(id) { currentNoteId = id; pushState(); const note = findNoteById(allData, id); if (!note) { return; } document.getElementById('modalTitle').innerText = note.title; if (note.isLocked) { checkPassword(note, () => { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); }); } else { document.getElementById('detailsModal').style.display = 'flex'; renderSubNotes(); } }
     function closeModalInternal() { document.getElementById('detailsModal').style.display = 'none'; document.getElementById('subSearchInput').value = ''; toggleSelectionMode(false); }
     
     function handleCardClick(e, item) { 
-        if (isMainSelectionMode) { 
-            e.stopPropagation(); 
-            toggleMainSelection(item.id); 
-            return; 
-        } 
+        if (isMainSelectionMode) { e.stopPropagation(); toggleMainSelection(item.id); return; } 
         if (e.target.closest('.sort-handle')) { return; } 
-        
         if (item.type === 'folder') { 
             if (item.isLocked) { checkPassword(item, () => { currentFolderId = item.id; pushState(); renderMainGrid(); }); } 
             else { currentFolderId = item.id; pushState(); renderMainGrid(); } 
         } 
         else if (item.type === 'file') {
-            if (item.isLocked) { 
-                checkPassword(item, () => { openImageViewer(item); }); 
-            } else { 
-                openImageViewer(item); 
-            }
+            if (item.isLocked) { checkPassword(item, () => { openImageViewer(item); }); } 
+            else { openImageViewer(item); }
         }
-        else { 
-            openNoteDetails(item.id); 
-        } 
+        else { openNoteDetails(item.id); } 
     }
 
-    // --- File Viewer Logic ---
     function openImageViewer(item) {
         const modal = document.getElementById('fileViewerModal');
         const container = document.getElementById('fileViewerContainer');
         container.innerHTML = ''; 
-
         if (item.content.startsWith('data:image')) {
-            const img = document.createElement('img');
-            img.src = item.content;
-            container.appendChild(img);
+            const img = document.createElement('img'); img.src = item.content; container.appendChild(img);
         } else if (item.content.startsWith('data:application/pdf')) {
-            const iframe = document.createElement('iframe');
-            iframe.src = item.content;
-            container.appendChild(iframe);
+            const iframe = document.createElement('iframe'); iframe.src = item.content; container.appendChild(iframe);
         } else {
-            showNotification('لا يمكن عرض هذا الملف، جاري التنزيل...', 'info');
-            downloadFile(item);
-            return;
+            showNotification('لا يمكن عرض هذا الملف، جاري التنزيل...', 'info'); downloadFile(item); return;
         }
-
-        modal.style.display = 'flex';
-        pushState(); 
+        modal.style.display = 'flex'; pushState(); 
     }
 
     function closeFileViewer() {
         document.getElementById('fileViewerModal').style.display = 'none';
         document.getElementById('fileViewerContainer').innerHTML = '';
-        if (window.history.state && window.history.state.open) { window.history.back(); }
     }
 
     function downloadFile(item) {
-        const link = document.createElement("a");
-        link.href = item.content;
-        link.download = item.title;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const link = document.createElement("a"); link.href = item.content; link.download = item.title; document.body.appendChild(link); link.click(); document.body.removeChild(link);
     }
 
     function renderSubNotes() {
@@ -1075,7 +913,9 @@
             if (filter && !content.toLowerCase().includes(filter)) return;
             const li = document.createElement('li'); li.className = 'sub-note-item'; if (isSelectionMode && selectedSubIndices.has(index)) li.classList.add('selected');
             let displayContent = content; if (content.length > 200) { displayContent = content.substring(0, 200) + '...'; }
-            li.innerHTML = `<div class="sub-note-content">${displayContent}</div>`; li.onclick = (e) => { if (isSelectionMode) { toggleSubSelection(index); } else { editSubNote(index); } }; li.oncontextmenu = (e) => { e.preventDefault(); showSubContextMenu(index); };
+            li.innerHTML = `<div class="sub-note-content">${displayContent}</div>`; 
+            li.onclick = (e) => { if (isSelectionMode) { toggleSubSelection(index); } else { editSubNote(index); } }; 
+            li.oncontextmenu = (e) => { e.preventDefault(); showSubContextMenu(index); };
             let pressTimer; li.addEventListener('touchstart', (e) => { pressTimer = setTimeout(() => { if (!isSelectionMode) showSubContextMenu(index); }, 600); }); li.addEventListener('touchend', () => clearTimeout(pressTimer)); li.addEventListener('touchmove', () => clearTimeout(pressTimer));
             listEl.appendChild(li);
         });
@@ -1091,16 +931,64 @@
         const matchPos = searchMatches[currentSearchIndex]; textarea.focus(); textarea.setSelectionRange(matchPos, matchPos + searchTerm.length); const fullText = textarea.value; const lines = fullText.substring(0, matchPos).split("\n"); const lineCount = lines.length; const lineHeight = 24; textarea.scrollTop = (lineCount - 2) * lineHeight; 
     }
 
-    // --- Modal Handling ---
     function showConfirmModal(message) { document.getElementById('confirmMessage').innerText = message; document.getElementById('confirmModal').style.display = 'flex'; return new Promise(resolve => { window.hideConfirmModal = (result) => { document.getElementById('confirmModal').style.display = 'none'; resolve(result); }; }); }
     function showPasswordModal() { document.getElementById('modalPasswordInput').value = ''; document.getElementById('passwordModal').style.display = 'flex'; document.getElementById('modalPasswordInput').focus(); return new Promise(resolve => { const passwordBtn = document.getElementById('passwordBtn'); passwordBtn.onclick = () => { const pass = document.getElementById('modalPasswordInput').value; document.getElementById('modalPasswordInput').value = ''; document.getElementById('passwordModal').style.display = 'none'; resolve(pass); }; window.hidePasswordModal = (result) => { document.getElementById('passwordModal').style.display = 'none'; resolve(result); }; }); }
     async function checkPassword(item, callback) { const pass = await showPasswordModal(); if (!pass) return false; if (btoa(pass) === item.passwordHash) { if (callback) callback(); return true; } else { showNotification('كلمة المرور خاطئة', 'error'); return false; } }
 
+    // ─────────────────────────────────────────
+    // FIX #4: hideInputModal لا يستدعي history.back بشكل مزدوج
+    // ─────────────────────────────────────────
     function showInputModal(message, initialValue = '', type = 'single', allowCopy = false, allowPaste = false, isCleanEdit = false) {
-        pushState(); document.getElementById('inputMessage').innerText = message; const modal = document.getElementById('inputModal'); const singleInput = document.getElementById('modalInputSingle'); const areaInput = document.getElementById('modalInputArea'); const copyBtn = document.getElementById('inputCopyBtn'); const pasteBtn = document.getElementById('inputPasteBtn'); const floatingToolbar = document.getElementById('floatingToolbar'); const searchToolbar = document.getElementById('searchToolbar');
-        if (isCleanEdit) { modal.classList.add('clean-mode'); activeInputModalMode = 'edit_clean'; floatingToolbar.style.display = 'flex'; originalContent = initialValue; initHistory(initialValue); } else { modal.classList.remove('clean-mode'); activeInputModalMode = 'normal'; floatingToolbar.style.display = 'none'; searchToolbar.style.display = 'none'; }
-        singleInput.style.display = type === 'single' ? 'block' : 'none'; areaInput.style.display = type === 'area' ? 'block' : 'none'; copyBtn.style.display = allowCopy ? 'block' : 'none'; pasteBtn.style.display = allowPaste ? 'block' : 'none'; const activeInput = type === 'single' ? singleInput : areaInput; activeInput.value = initialValue; modal.style.display = 'flex'; if (!isCleanEdit) { setTimeout(() => activeInput.focus(), 300); }
-        return new Promise(resolve => { const saveBtn = document.getElementById('inputBtn'); saveBtn.onclick = () => hideInputModal(true, resolve, activeInput.value); window.hideInputModal = (isSaved, res = resolve, val = null) => { modal.style.display = 'none'; modal.classList.remove('clean-mode'); activeInputModalMode = null; searchToolbar.style.display = 'none'; res(isSaved ? val : null); if (window.history.state && window.history.state.open) { window.history.back(); } }; window.copyModalContent = () => { navigator.clipboard.writeText(activeInput.value); showNotification('تم نسخ المحتوى', 'info'); }; window.pasteModalContent = async () => { try { const text = await navigator.clipboard.readText(); activeInput.value = text; } catch(e) { showNotification('تعذر الوصول إلى الحافظة', 'error'); } }; });
+        pushState(); 
+        document.getElementById('inputMessage').innerText = message; 
+        const modal = document.getElementById('inputModal'); 
+        const singleInput = document.getElementById('modalInputSingle'); 
+        const areaInput = document.getElementById('modalInputArea'); 
+        const copyBtn = document.getElementById('inputCopyBtn'); 
+        const pasteBtn = document.getElementById('inputPasteBtn'); 
+        const floatingToolbar = document.getElementById('floatingToolbar'); 
+        const searchToolbar = document.getElementById('searchToolbar');
+        
+        if (isCleanEdit) { 
+            modal.classList.add('clean-mode'); activeInputModalMode = 'edit_clean'; 
+            floatingToolbar.style.display = 'flex'; originalContent = initialValue; initHistory(initialValue); 
+        } else { 
+            modal.classList.remove('clean-mode'); activeInputModalMode = 'normal'; 
+            floatingToolbar.style.display = 'none'; searchToolbar.style.display = 'none'; 
+        }
+        
+        singleInput.style.display = type === 'single' ? 'block' : 'none'; 
+        areaInput.style.display = type === 'area' ? 'block' : 'none'; 
+        copyBtn.style.display = allowCopy ? 'block' : 'none'; 
+        pasteBtn.style.display = allowPaste ? 'block' : 'none'; 
+        const activeInput = type === 'single' ? singleInput : areaInput; 
+        activeInput.value = initialValue; 
+        modal.style.display = 'flex'; 
+        if (!isCleanEdit) { setTimeout(() => activeInput.focus(), 300); }
+        
+        return new Promise(resolve => { 
+            const saveBtn = document.getElementById('inputBtn'); 
+            saveBtn.onclick = () => {
+                const val = activeInput.value;
+                modal.style.display = 'none'; 
+                modal.classList.remove('clean-mode'); 
+                activeInputModalMode = null; 
+                searchToolbar.style.display = 'none';
+                resolve(val);
+                // لا نستدعي history.back هنا — popstate يتولى الأمر
+            };
+            
+            window.hideInputModal = (isSaved, res = resolve, val = null) => { 
+                modal.style.display = 'none'; 
+                modal.classList.remove('clean-mode'); 
+                activeInputModalMode = null; 
+                searchToolbar.style.display = 'none'; 
+                res(isSaved ? (val !== null ? val : activeInput.value) : null); 
+            }; 
+            
+            window.copyModalContent = () => { navigator.clipboard.writeText(activeInput.value); showNotification('تم نسخ المحتوى', 'info'); }; 
+            window.pasteModalContent = async () => { try { const text = await navigator.clipboard.readText(); activeInput.value = text; } catch(e) { showNotification('تعذر الوصول إلى الحافظة', 'error'); } }; 
+        });
     }
 
     async function verifyAppPass() {
@@ -1117,7 +1005,6 @@
         const menu = document.getElementById('contextMenu'); 
         const overlay = document.getElementById('contextMenuOverlay');
         const item = findNoteById(allData, activeCardId);
-        
         const isMultiSelected = selectedMainIds.has(id) && selectedMainIds.size > 1;
 
         const lockBtn = document.getElementById('lockUnlockBtn');
@@ -1128,45 +1015,25 @@
         const downloadBtn = document.getElementById('ctxDownloadBtn');
         const editBtn = document.getElementById('ctxEditBtn');
 
-        lockBtn.style.display = 'none';
-        moveBtn.style.display = 'flex'; 
-        copyBtn.style.display = 'flex'; 
-        addToHomeBtn.style.display = 'none';
-        copyContentBtn.style.display = 'none';
-        downloadBtn.style.display = 'none';
-        editBtn.style.display = 'flex'; 
+        lockBtn.style.display = 'none'; moveBtn.style.display = 'flex'; copyBtn.style.display = 'flex'; 
+        addToHomeBtn.style.display = 'none'; copyContentBtn.style.display = 'none'; 
+        downloadBtn.style.display = 'none'; editBtn.style.display = 'flex'; 
 
         if (isMultiSelected) {
-            editBtn.style.display = 'none'; 
-            copyContentBtn.style.display = 'none'; 
-
+            editBtn.style.display = 'none'; copyContentBtn.style.display = 'none'; 
             const selItems = getCurrentList().filter(n => selectedMainIds.has(n.id));
             const allLocked = selItems.every(n => n.isLocked);
             const allUnlocked = selItems.every(n => !n.isLocked);
-
-            if (allLocked) {
-                lockBtn.style.display = 'flex'; lockBtn.innerText = "🔓 إلغاء قفل";
-            } else if (allUnlocked) {
-                lockBtn.style.display = 'flex'; lockBtn.innerText = "🔒 قفل";
-            } else {
-                lockBtn.style.display = 'none'; 
-            }
-
-            if (currentFolderId !== null) {
-                addToHomeBtn.style.display = 'flex';
-            }
-
+            if (allLocked) { lockBtn.style.display = 'flex'; lockBtn.innerText = "🔓 إلغاء قفل"; } 
+            else if (allUnlocked) { lockBtn.style.display = 'flex'; lockBtn.innerText = "🔒 قفل"; } 
+            else { lockBtn.style.display = 'none'; }
+            if (currentFolderId !== null) { addToHomeBtn.style.display = 'flex'; }
         } else {
-            lockBtn.style.display = 'flex'; 
-            lockBtn.innerText = "🔒 قفل/فتح";
-
-            if (currentFolderId !== null) {
-                addToHomeBtn.style.display = 'flex';
-            }
-
-            if (item.type === 'file') {
-                downloadBtn.style.display = 'flex';
-            }
+            lockBtn.style.display = 'flex'; lockBtn.innerText = "🔒 قفل/فتح";
+            if (currentFolderId !== null) { addToHomeBtn.style.display = 'flex'; }
+            if (item && item.type === 'file') { downloadBtn.style.display = 'flex'; }
+            // FIX #2: إظهار زر نسخ المحتوى للملاحظات النصية فقط
+            if (item && item.type === 'note') { copyContentBtn.style.display = 'flex'; }
         }
 
         overlay.style.display = 'block';
@@ -1183,76 +1050,57 @@
         const item = findNoteById(allData, activeCardId); if (!item) return;
         
         if (action === 'delete') {
-            if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) {
-                deleteSelectedMainNotesWrapper(); return;
-            }
+            if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) { deleteSelectedMainNotesWrapper(); return; }
             if (!await verifyAppPass()) return; 
             if (item.isLocked) { const pass = await showPasswordModal(); if (!pass) return; if (btoa(pass) !== item.passwordHash) { showNotification('كلمة المرور خاطئة', 'error'); return; } }
-            if (await showConfirmModal(`هل أنت متأكد من حذف "${item.title}"؟`)) { if (currentFolderId === null) allData = allData.filter(n => n.id !== activeCardId); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => n.id !== activeCardId); saveData(); renderMainGrid(); }
+            if (await showConfirmModal(`هل أنت متأكد من حذف "${item.title}"؟`)) { if (currentFolderId === null) allData = allData.filter(n => n.id != activeCardId); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => n.id != activeCardId); saveData(); renderMainGrid(); }
         } 
-        
         else if (action === 'edit') { 
-            if (item.isLocked && !(await checkPassword(item))) return; const newTitle = await showInputModal(item.type === 'folder' ? 'تعديل اسم المجلد:' : 'تعديل عنوان الملاحظة:', item.title, 'single'); if (newTitle) { item.title = newTitle; saveData(); renderMainGrid(); } 
+            if (item.isLocked && !(await checkPassword(item))) return; 
+            const newTitle = await showInputModal(item.type === 'folder' ? 'تعديل اسم المجلد:' : 'تعديل عنوان الملاحظة:', item.title, 'single'); 
+            if (newTitle) { item.title = newTitle; saveData(); renderMainGrid(); } 
         } 
-        
         else if (action === 'toggleLock') { 
-             if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) {
-                handleSelectionAction('toggleLock'); return;
-             }
-             if (item.isLocked) { if (await checkPassword(item)) { item.isLocked = false; item.passwordHash = null; showNotification('تم فتح القفل', 'success'); } } else { const pass = await showPasswordModal(); if (pass) { item.isLocked = true; item.passwordHash = btoa(pass); showNotification('تم القفل', 'success'); } } saveData(); renderMainGrid(); 
+             if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) { handleSelectionAction('toggleLock'); return; }
+             if (item.isLocked) { if (await checkPassword(item)) { item.isLocked = false; item.passwordHash = null; showNotification('تم فتح القفل', 'success'); } } 
+             else { const pass = await showPasswordModal(); if (pass) { item.isLocked = true; item.passwordHash = btoa(pass); showNotification('تم القفل', 'success'); } } 
+             saveData(); renderMainGrid(); 
         } 
-        
         else if (action === 'move' || action === 'copy') {
              if (!await verifyAppPass()) return; 
-
              const list = getCurrentList();
              let itemsToProcess = [];
-             
-             if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) {
-                 itemsToProcess = list.filter(n => selectedMainIds.has(n.id));
-             } else {
-                 itemsToProcess = [item];
-             }
-
-             itemsClipboard = itemsToProcess; 
-             clipboardAction = action; 
-             isPasteMode = true;
-             
-             toggleMainSelectionMode(false); 
-             renderMainGrid();
-             
+             if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) { itemsToProcess = list.filter(n => selectedMainIds.has(n.id)); } 
+             else { itemsToProcess = [item]; }
+             itemsClipboard = itemsToProcess; clipboardAction = action; isPasteMode = true;
+             toggleMainSelectionMode(false); renderMainGrid();
              showNotification(action === 'move' ? 'تم القص. انتقل للوجهة واضغط لصق.' : 'تم النسخ. انتقل للوجهة واضغط لصق.', 'info');
         }
-
         else if (action === 'moveToRoot') {
             if (currentFolderId === null) return;
             if (!await verifyAppPass()) return; 
-            
             let itemsToProcess = [];
             const list = getCurrentList();
-            
-            if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) {
-                 itemsToProcess = list.filter(n => selectedMainIds.has(n.id));
-            } else {
-                 itemsToProcess = [item];
-            }
-
+            if (selectedMainIds.has(activeCardId) && selectedMainIds.size > 1) { itemsToProcess = list.filter(n => selectedMainIds.has(n.id)); } 
+            else { itemsToProcess = [item]; }
             if (await showConfirmModal("إضافة العناصر للواجهة الرئيسية؟")) {
                  const folder = findNoteById(allData, currentFolderId);
-                 
-                 itemsToProcess.forEach(itm => {
-                     folder.items = folder.items.filter(n => n.id !== itm.id);
-                     allData.unshift(itm);
-                 });
-                 
-                 saveData();
-                 toggleMainSelectionMode(false); 
-                 renderMainGrid(); 
-                 
+                 itemsToProcess.forEach(itm => { folder.items = folder.items.filter(n => n.id != itm.id); allData.unshift(itm); });
+                 saveData(); toggleMainSelectionMode(false); renderMainGrid(); 
                  showNotification('تمت الإضافة للواجهة الرئيسية', 'success');
             }
         }
-        
+        // FIX #2: معالجة copyText بشكل صحيح
+        else if (action === 'copyText') {
+            if (item.isLocked && !(await checkPassword(item))) return;
+            const textContent = item.items ? item.items.join('\n') : '';
+            try {
+                await navigator.clipboard.writeText(textContent);
+                showNotification('تم نسخ محتوى الملاحظة', 'success');
+            } catch(e) {
+                showNotification('تعذر النسخ', 'error');
+            }
+        }
         else if (action === 'downloadFile') {
             if (item.isLocked && !(await checkPassword(item))) return;
             downloadFile(item);
@@ -1261,51 +1109,38 @@
 
     function showCreateMenu() { const menu = document.getElementById('createTypeMenu'); menu.style.display = 'flex'; setTimeout(() => { const closeMenu = (e) => { if(!e.target.closest('#createTypeMenu') && !e.target.closest('.fab')) { menu.style.display = 'none'; document.removeEventListener('click', closeMenu); } }; document.addEventListener('click', closeMenu); }, 100); }
     
-    function triggerFileUpload() {
-        document.getElementById('createTypeMenu').style.display = 'none';
-        document.getElementById('fileUploadInput').click();
-    }
+    function triggerFileUpload() { document.getElementById('createTypeMenu').style.display = 'none'; document.getElementById('fileUploadInput').click(); }
 
     async function handleFileUpload(event) {
-        const files = event.target.files;
-        if (!files.length) return;
-
+        const files = event.target.files; if (!files.length) return;
         showNotification('جاري المعالجة...', 'info');
-
         for (let file of files) {
-            if (file.size > 10 * 1024 * 1024) {
-                showNotification(`الملف ${file.name} كبير جداً (تجاوز 10 ميجا)`, 'error');
-                continue;
-            }
-
+            if (file.size > 10 * 1024 * 1024) { showNotification(`الملف ${file.name} كبير جداً (تجاوز 10 ميجا)`, 'error'); continue; }
             try {
                 const base64 = await toBase64(file);
-                const newItem = {
-                    id: Date.now() + Math.random(),
-                    type: 'file',
-                    title: file.name,
-                    content: base64, 
-                    isLocked: false
+                const newItem = { 
+                    id: generateId(), // FIX #1
+                    type: 'file', title: file.name, content: base64, isLocked: false 
                 };
                 getCurrentList().unshift(newItem);
-            } catch(e) {
-                showNotification('فشل قراءة الملف', 'error');
-            }
+            } catch(e) { showNotification('فشل قراءة الملف', 'error'); }
         }
-        
-        saveData();
-        renderMainGrid();
-        event.target.value = ''; 
+        saveData(); renderMainGrid(); event.target.value = ''; 
     }
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
+    const toBase64 = file => new Promise((resolve, reject) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => resolve(reader.result); reader.onerror = error => reject(error); });
 
-    async function createItemWrapper(type) { document.getElementById('createTypeMenu').style.display = 'none'; const title = await showInputModal(type === 'folder' ? 'اسم المجلد:' : 'عنوان الملاحظة:', '', 'single'); if (title) { const newItem = { id: Date.now(), type, title, items: [], isLocked: false }; getCurrentList().unshift(newItem); saveData(); renderMainGrid(); if (type === 'note') openNoteDetails(newItem.id); } }
+    async function createItemWrapper(type) { 
+        document.getElementById('createTypeMenu').style.display = 'none'; 
+        const title = await showInputModal(type === 'folder' ? 'اسم المجلد:' : 'عنوان الملاحظة:', '', 'single'); 
+        if (title) { 
+            const newItem = { 
+                id: generateId(), // FIX #1
+                type, title, items: [], isLocked: false 
+            }; 
+            getCurrentList().unshift(newItem); saveData(); renderMainGrid(); if (type === 'note') openNoteDetails(newItem.id); 
+        } 
+    }
 
     function toggleSelectionMode(active) { isSelectionMode = active; selectedSubIndices.clear(); document.getElementById('selectBtn').style.display = active ? 'none' : 'block'; ['selectAllBtn', 'cancelSelectionBtn', 'deleteSubBtn'].forEach(id => { document.getElementById(id).style.display = active ? 'block' : 'none'; }); renderSubNotes(); }
     function toggleSubSelection(index) { selectedSubIndices.has(index) ? selectedSubIndices.delete(index) : selectedSubIndices.add(index); renderSubNotes(); }
@@ -1314,7 +1149,6 @@
     async function deleteSelectedSubNotesWrapper() { 
         if (selectedSubIndices.size === 0) return; 
         if (!await verifyAppPass()) return; 
-        
         if (await showConfirmModal('حذف العناصر المحددة؟')) { const note = findNoteById(allData, currentNoteId); const sorted = Array.from(selectedSubIndices).sort((a,b) => b-a); sorted.forEach(i => note.items.splice(i, 1)); saveData(); toggleSelectionMode(false); } 
     }
 
@@ -1322,357 +1156,156 @@
     
     async function handleSubNoteAction(action) { 
         const note = findNoteById(allData, currentNoteId); 
-        if (action === 'delete') {
-            if (!await verifyAppPass()) return; 
-            note.items.splice(activeSubNoteIndex, 1); 
-        }
+        if (action === 'delete') { if (!await verifyAppPass()) return; note.items.splice(activeSubNoteIndex, 1); }
         else if (action === 'copy') navigator.clipboard.writeText(note.items[activeSubNoteIndex]); 
-        else if (action === 'edit') editSubNote(activeSubNoteIndex); 
-        
+        else if (action === 'edit') { editSubNote(activeSubNoteIndex); return; }
         saveData(); renderSubNotes(); document.getElementById('subNoteContextMenu').style.display = 'none'; 
     }
 
     function toggleMainSelectionMode(active) { 
-        if (active) {
-            document.getElementById('selectionOptionsModal').style.display = 'flex';
-            updateSelectionMenuUI();
-        } else {
-            isMainSelectionMode = false;
-            selectedMainIds.clear();
-            document.getElementById('selectionOptionsModal').style.display = 'none';
-            renderMainGrid();
-        }
+        if (active) { document.getElementById('selectionOptionsModal').style.display = 'flex'; updateSelectionMenuUI(); } 
+        else { isMainSelectionMode = false; selectedMainIds.clear(); document.getElementById('selectionOptionsModal').style.display = 'none'; renderMainGrid(); }
     }
-
-    function toggleMainSelection(id) { 
-        selectedMainIds.has(id) ? selectedMainIds.delete(id) : selectedMainIds.add(id); 
-        renderMainGrid(); 
-    }
-    
-    function updateSelectionMenuUI() {
-        const list = getCurrentList();
-        const selAllText = document.getElementById('selAllText');
-        if (selectedMainIds.size === list.length && list.length > 0) {
-            selAllText.innerText = "❌ إلغاء تحديد الكل";
-        } else {
-            selAllText.innerText = "✅ تحديد الكل";
-        }
-    }
+    function toggleMainSelection(id) { selectedMainIds.has(id) ? selectedMainIds.delete(id) : selectedMainIds.add(id); renderMainGrid(); }
+    function updateSelectionMenuUI() { const list = getCurrentList(); const selAllText = document.getElementById('selAllText'); if (selectedMainIds.size === list.length && list.length > 0) { selAllText.innerText = "❌ إلغاء تحديد الكل"; } else { selAllText.innerText = "✅ تحديد الكل"; } }
 
     async function handleSelectionAction(action) {
         const list = getCurrentList();
-        
-        if (action === 'selectAll') {
-            if (selectedMainIds.size === list.length) {
-                selectedMainIds.clear();
-            } else {
-                list.forEach(i => selectedMainIds.add(i.id));
-            }
-            isMainSelectionMode = true;
-            document.getElementById('selectionOptionsModal').style.display = 'none';
-            renderMainGrid();
-        }
-        else if (action === 'individual') {
-            isMainSelectionMode = true;
-            document.getElementById('selectionOptionsModal').style.display = 'none';
-            renderMainGrid();
-        }
-        else if (action === 'cancelAll') {
-            toggleMainSelectionMode(false);
-        }
+        if (action === 'selectAll') { if (selectedMainIds.size === list.length) { selectedMainIds.clear(); } else { list.forEach(i => selectedMainIds.add(i.id)); } isMainSelectionMode = true; document.getElementById('selectionOptionsModal').style.display = 'none'; renderMainGrid(); }
+        else if (action === 'individual') { isMainSelectionMode = true; document.getElementById('selectionOptionsModal').style.display = 'none'; renderMainGrid(); }
+        else if (action === 'cancelAll') { toggleMainSelectionMode(false); }
     }
 
     async function pasteItemsHere() {
         if (!isPasteMode || itemsClipboard.length === 0) return;
-        
         if (clipboardAction === 'move') {
-            itemsClipboard.forEach(clipItem => {
-                removeItemFromTree(allData, clipItem.id);
-            });
-            const targetList = getCurrentList();
-            itemsClipboard.forEach(item => targetList.unshift(item));
-        } 
-        else if (clipboardAction === 'copy') {
+            itemsClipboard.forEach(clipItem => { removeItemFromTree(allData, clipItem.id); });
+            const targetList = getCurrentList(); itemsClipboard.forEach(item => targetList.unshift(item));
+        } else if (clipboardAction === 'copy') {
             const targetList = getCurrentList();
             itemsClipboard.forEach(item => {
                 const copy = JSON.parse(JSON.stringify(item));
-                copy.id = Date.now() + Math.random(); 
+                copy.id = generateId(); // FIX #1
                 copy.title = copy.title + " (نسخة)";
                 targetList.unshift(copy);
             });
         }
-
-        saveData();
-        
-        itemsClipboard = [];
-        isPasteMode = false;
-        renderMainGrid();
-        showNotification("تم اللصق بنجاح ✅", "success");
+        saveData(); itemsClipboard = []; isPasteMode = false; renderMainGrid(); showNotification("تم اللصق بنجاح ✅", "success");
     }
 
-    function removeItemFromTree(list, id) {
-        for (let i = 0; i < list.length; i++) {
-            if (list[i].id === id) {
-                list.splice(i, 1);
-                return true;
-            }
-            if (list[i].type === 'folder' && list[i].items) {
-                if (removeItemFromTree(list[i].items, id)) return true;
-            }
-        }
-        return false;
-    }
+    function removeItemFromTree(list, id) { for (let i = 0; i < list.length; i++) { if (list[i].id == id) { list.splice(i, 1); return true; } if (list[i].type === 'folder' && list[i].items) { if (removeItemFromTree(list[i].items, id)) return true; } } return false; }
 
     async function deleteSelectedMainNotesWrapper() { 
         if (selectedMainIds.size === 0) return; 
-        
         if (!await verifyAppPass()) return; 
-
-        const list = getCurrentList(); 
-        const lockedItems = list.filter(n => selectedMainIds.has(n.id) && n.isLocked); 
+        const list = getCurrentList(); const lockedItems = list.filter(n => selectedMainIds.has(n.id) && n.isLocked); 
         if (lockedItems.length > 0) { const pass = await showPasswordModal(); if (!pass) return; const hash = btoa(pass); if (lockedItems[0].passwordHash !== hash) { showNotification('كلمة المرور خاطئة', 'error'); return; } } 
         if (await showConfirmModal(`حذف ${selectedMainIds.size} عناصر؟`)) { if (currentFolderId === null) allData = allData.filter(n => !selectedMainIds.has(n.id)); else findNoteById(allData, currentFolderId).items = findNoteById(allData, currentFolderId).items.filter(n => !selectedMainIds.has(n.id)); saveData(); isMainSelectionMode = false; selectedMainIds.clear(); renderMainGrid(); showNotification('تم حذف العناصر المحددة.', 'success'); } 
     }
 
     async function handleSettingsOpen() { 
-        const storedAppPass = localStorage.getItem(APP_PASS_KEY); if (storedAppPass) { const enteredPass = await showPasswordModal(); if (!enteredPass || btoa(enteredPass) !== storedAppPass) { showNotification('كلمة المرور خاطئة', 'error'); return; } } 
-        document.getElementById('settingsModal').style.display = 'flex'; updateSettingsUI(); 
-        checkGoogleLoginState();
+        const storedAppPass = localStorage.getItem(APP_PASS_KEY); 
+        if (storedAppPass) { const enteredPass = await showPasswordModal(); if (!enteredPass || btoa(enteredPass) !== storedAppPass) { showNotification('كلمة المرور خاطئة', 'error'); return; } } 
+        document.getElementById('settingsModal').style.display = 'flex'; updateSettingsUI(); checkGoogleLoginState();
     }
     function hideSettingsModal() { document.getElementById('settingsModal').style.display = 'none'; }
     function updateSettingsUI() { const hasPass = localStorage.getItem(APP_PASS_KEY) !== null; document.getElementById('setPassBtn').style.display = hasPass ? 'none' : 'flex'; document.getElementById('removePassBtn').style.display = hasPass ? 'flex' : 'none'; }
     async function setAppPassword() { const p = await showPasswordModal(); if(p) { localStorage.setItem(APP_PASS_KEY, btoa(p)); saveData(); showNotification('تم القفل بنجاح', 'success'); hideSettingsModal(); } }
     async function removeAppPassword() { if(await showConfirmModal('حذف كلمة مرور التطبيق؟')) { localStorage.removeItem(APP_PASS_KEY); saveData(); hideSettingsModal(); showNotification('تم حذف كلمة المرور', 'info'); } }
     
-    function exportDataAuto() { 
-        const blob = new Blob([JSON.stringify(allData)], {type: "application/json"}); 
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); 
-        a.download = "smart_notes_backup.json"; a.click(); 
-    }
-    function importDataWrapper(e) { 
-        const reader = new FileReader(); 
-        reader.onload = (f) => { 
-            try { 
-                allData = JSON.parse(f.target.result); 
-                saveData(); 
-                renderMainGrid(); 
-                hideSettingsModal(); 
-                showNotification('تم استعادة البيانات بنجاح', 'success'); 
-            } catch(e){ showNotification('ملف غير صالح', 'error'); } 
-        }; 
-        reader.readAsText(e.target.files[0]); 
-    }
-    function exportDataManual() { 
-        hideSettingsModal(); 
-        setTimeout(() => {
-            showInputModal('نسخة احتياطية (نصية) - انسخ الكود:', JSON.stringify(allData), 'area', true); 
-        }, 100);
-    }
-    async function importDataPaste() { 
-        hideSettingsModal(); 
-        setTimeout(async () => {
-            const t = await showInputModal('الصق نص النسخة الاحتياطية (JSON) هنا:', '', 'area', false, true); 
-            if(t) { 
-                try { 
-                    allData = JSON.parse(t); 
-                    saveData(); 
-                    renderMainGrid(); 
-                    showNotification('تم استعادة البيانات بنجاح', 'success'); 
-                } catch(e){ showNotification('نص غير صالح', 'error'); } 
-            }
-        }, 100);
-    }
+    function exportDataAuto() { const blob = new Blob([JSON.stringify(allData)], {type: "application/json"}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "smart_notes_backup.json"; a.click(); }
+    function importDataWrapper(e) { const reader = new FileReader(); reader.onload = (f) => { try { allData = JSON.parse(f.target.result); saveData(); renderMainGrid(); hideSettingsModal(); showNotification('تم استعادة البيانات بنجاح', 'success'); } catch(e){ showNotification('ملف غير صالح', 'error'); } }; reader.readAsText(e.target.files[0]); }
+    function exportDataManual() { hideSettingsModal(); setTimeout(() => { showInputModal('نسخة احتياطية (نصية) - انسخ الكود:', JSON.stringify(allData), 'area', true); }, 100); }
+    async function importDataPaste() { hideSettingsModal(); setTimeout(async () => { const t = await showInputModal('الصق نص النسخة الاحتياطية (JSON) هنا:', '', 'area', false, true); if(t) { try { allData = JSON.parse(t); saveData(); renderMainGrid(); showNotification('تم استعادة البيانات بنجاح', 'success'); } catch(e){ showNotification('نص غير صالح', 'error'); } } }, 100); }
 
     function showNotification(m, t) { const icon = document.getElementById('notifIcon'); icon.innerText = t === 'success' ? '✅' : (t === 'error' ? '❌' : 'ℹ️'); document.getElementById('notificationMessage').innerText = m; document.getElementById('notificationModal').style.display = 'flex'; }
     function closeNotification() { document.getElementById('notificationModal').style.display = 'none'; }
 
-    // --- GOOGLE DRIVE LOGIC (UPDATED FOR TOKEN EXPIRY) ---
-
+    // --- GOOGLE DRIVE LOGIC ---
     function initGoogleLib() {
         if(window.google) {
             tokenClient = google.accounts.oauth2.initTokenClient({ 
-                client_id: GOOGLE_CLIENT_ID, 
-                scope: SCOPES, 
+                client_id: GOOGLE_CLIENT_ID, scope: SCOPES, 
                 callback: (resp) => { 
                     if (resp.access_token) { 
-                        gAccessToken = resp.access_token; 
-                        localStorage.setItem('gAccessToken', gAccessToken); 
-                        
+                        gAccessToken = resp.access_token; localStorage.setItem('gAccessToken', gAccessToken); 
                         document.getElementById('loginOverlay').style.display = 'none'; 
-                        
                         isRetry = false; 
-
                         showNotification("تم الاتصال بنجاح", "success"); 
-                        fetchUserInfo(); 
-                        checkGoogleLoginState(); 
-                        
-                        // Sync with cloud (merging logic if needed, currently overwrites RAM from cloud)
-                        forceSyncFromCloud(true); 
+                        fetchUserInfo(); checkGoogleLoginState(); forceSyncFromCloud(true); 
                     } 
                 } 
             });
-
-            if(gAccessToken) { 
-                checkGoogleLoginState(); 
-            }
+            if(gAccessToken) { checkGoogleLoginState(); }
         }
     }
     
-    function startGoogleLogin() { 
-        if(tokenClient) {
-            document.getElementById('loginStatus').style.display = 'block';
-            tokenClient.requestAccessToken(); 
-        }
-    }
-    
+    function startGoogleLogin() { if(tokenClient) { document.getElementById('loginStatus').style.display = 'block'; tokenClient.requestAccessToken(); } }
     function openLoginOverlay() { hideSettingsModal(); document.getElementById('loginOverlay').style.display = 'flex'; }
-    
-    function checkGoogleLoginState() { 
-        if(gAccessToken) { 
-            document.getElementById('googleLoginBtnArea').style.display = 'none'; 
-            document.getElementById('googleSyncActions').style.display = 'block'; 
-            document.getElementById('googleLogoutContainer').style.display = 'block'; 
-        } else { 
-            document.getElementById('googleLoginBtnArea').style.display = 'block'; 
-            document.getElementById('googleSyncActions').style.display = 'none'; 
-            document.getElementById('googleLogoutContainer').style.display = 'none'; 
-        } 
-    }
+    function checkGoogleLoginState() { if(gAccessToken) { document.getElementById('googleLoginBtnArea').style.display = 'none'; document.getElementById('googleSyncActions').style.display = 'block'; document.getElementById('googleLogoutContainer').style.display = 'block'; } else { document.getElementById('googleLoginBtnArea').style.display = 'block'; document.getElementById('googleSyncActions').style.display = 'none'; document.getElementById('googleLogoutContainer').style.display = 'none'; } }
     
     async function fetchUserInfo() { 
-        if(!gAccessToken) return; 
-        const localPic = localStorage.getItem('userPhoto'); 
-        if(localPic) updateLogoutIcon(localPic); 
-        
-        try { 
-            let res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
-            if(res.ok) { 
-                let data = await res.json(); 
-                if(data.picture) { 
-                    localStorage.setItem('userPhoto', data.picture); 
-                    updateLogoutIcon(data.picture); 
-                } 
-            }
-        } catch(e) {} 
+        if(!gAccessToken) return; const localPic = localStorage.getItem('userPhoto'); if(localPic) updateLogoutIcon(localPic); 
+        try { let res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); if(res.ok) { let data = await res.json(); if(data.picture) { localStorage.setItem('userPhoto', data.picture); updateLogoutIcon(data.picture); } } } catch(e) {} 
     }
-    
     function updateLogoutIcon(url) { const area = document.getElementById('googleLogoutIcon'); if(area) area.innerHTML = `<img src="${url}" class="user-profile-img" alt="User">`; }
 
     async function handleGoogleLogout() {
         if(await showConfirmModal("هل تريد تسجيل الخروج؟ (لن تمسح البيانات المحلية)")) {
             localStorage.removeItem('gAccessToken'); localStorage.removeItem('userPhoto'); 
-            // Note: We do NOT clear LOCAL_DATA_KEY here, so user sees data even if logged out
-            gAccessToken = null; 
-            document.getElementById('googleLogoutIcon').innerText = '🚪'; 
-            checkGoogleLoginState(); 
-            // Force reload to update UI state
-            window.location.reload();
+            gAccessToken = null; document.getElementById('googleLogoutIcon').innerText = '🚪'; 
+            checkGoogleLoginState(); window.location.reload();
         }
     }
 
     function setSyncLoader(show) { document.getElementById('syncLoader').style.display = show ? 'inline-block' : 'none'; }
 
-    // --- UPDATED SYNC FUNCTIONS TO HANDLE 401 AUTOMATICALLY ---
-
     async function forceUploadToDrive(silent = false) {
         if(!gAccessToken) { if(!silent) showNotification("غير مسجل دخول", "error"); return; } 
         if(!silent) { hideSettingsModal(); showNotification("جاري الرفع للسحابة...", "info"); }
-        setSyncLoader(true);
-        document.getElementById('syncText').innerText = "حفظ...";
-        
+        setSyncLoader(true); document.getElementById('syncText').innerText = "حفظ...";
         try { 
             const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; 
             const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
-            
-            // --- 401 HANDLER ---
             if(searchResp.status === 401) { 
-                if(!isRetry && tokenClient) {
-                    console.log("Token expired during upload. Refreshing...");
-                    isRetry = true;
-                    // Attempt silent refresh first
-                    tokenClient.requestAccessToken({prompt: ''}); 
-                    return; 
-                } else {
-                     if(!silent) showNotification("انتهت الجلسة، يرجى تسجيل الدخول", "error");
-                     localStorage.removeItem('gAccessToken'); 
-                     gAccessToken=null; 
-                     document.getElementById('loginOverlay').style.display = 'flex'; 
-                     return; 
-                }
+                if(!isRetry && tokenClient) { isRetry = true; tokenClient.requestAccessToken({prompt: ''}); return; } 
+                else { if(!silent) showNotification("انتهت الجلسة، يرجى تسجيل الدخول", "error"); localStorage.removeItem('gAccessToken'); gAccessToken=null; document.getElementById('loginOverlay').style.display = 'flex'; return; }
             } 
-            // -------------------
-
             const data = await searchResp.json(); let fileId = null; if(data.files && data.files.length > 0) fileId = data.files[0].id; 
-            
-            const payload = { 
-                smartNotesData: allData,
-                appGlobalPass: localStorage.getItem(APP_PASS_KEY) 
-            }; 
+            const payload = { smartNotesData: allData, appGlobalPass: localStorage.getItem(APP_PASS_KEY) }; 
             const fileBlob = new Blob([JSON.stringify(payload)], { type: 'application/json' }); 
-            
-            if(fileId) { await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${gAccessToken}`, 'Content-Type': 'application/json' }, body: fileBlob }); } else { const metadata = { name: FILENAME, mimeType: 'application/json', parents: ['appDataFolder'] }; const form = new FormData(); form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' })); form.append('file', fileBlob); await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', { method: 'POST', headers: { 'Authorization': `Bearer ${gAccessToken}` }, body: form }); } 
+            if(fileId) { await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, { method: 'PATCH', headers: { 'Authorization': `Bearer ${gAccessToken}`, 'Content-Type': 'application/json' }, body: fileBlob }); } 
+            else { const metadata = { name: FILENAME, mimeType: 'application/json', parents: ['appDataFolder'] }; const form = new FormData(); form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' })); form.append('file', fileBlob); await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', { method: 'POST', headers: { 'Authorization': `Bearer ${gAccessToken}` }, body: form }); } 
             if(!silent) showNotification("تم الحفظ في السحابة ✅", "success"); 
-        
         } catch(e) { if(!silent) showNotification("فشل الرفع", "error"); } 
-        
-        setSyncLoader(false);
-        document.getElementById('syncText').innerText = "";
+        setSyncLoader(false); document.getElementById('syncText').innerText = "";
     }
 
     async function forceSyncFromCloud(silent = false) {
         if(!gAccessToken) { if(!silent) showNotification("غير مسجل دخول", "error"); return; } 
         if(!silent) { hideSettingsModal(); showNotification("جاري جلب البيانات...", "info"); }
-        setSyncLoader(true);
-        document.getElementById('syncText').innerText = "تحميل...";
-
+        setSyncLoader(true); document.getElementById('syncText').innerText = "تحميل...";
         try { 
             const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; 
             const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
-            
-            // --- 401 HANDLER ---
             if(searchResp.status === 401) { 
                 console.log("Token expired during sync. Status 401.");
-                if(!isRetry && tokenClient) {
-                    isRetry = true;
-                    document.getElementById('loginBtnText').innerText = "انتهت الجلسة - اضغط للتحديث";
-                    try { tokenClient.requestAccessToken({prompt: ''}); } catch (e) { document.getElementById('loginOverlay').style.display = 'flex'; }
-                    return; 
-                } else {
-                     localStorage.removeItem('gAccessToken'); 
-                     gAccessToken=null; 
-                     document.getElementById('loginOverlay').style.display = 'flex';
-                     return; 
-                }
+                if(!isRetry && tokenClient) { isRetry = true; document.getElementById('loginBtnText').innerText = "انتهت الجلسة - اضغط للتحديث"; try { tokenClient.requestAccessToken({prompt: ''}); } catch (e) { document.getElementById('loginOverlay').style.display = 'flex'; } return; } 
+                else { localStorage.removeItem('gAccessToken'); gAccessToken=null; document.getElementById('loginOverlay').style.display = 'flex'; return; }
             }
-            // -------------------
-
             const data = await searchResp.json(); 
             if(data.files && data.files.length > 0) { 
                 const fileId = data.files[0].id; 
                 const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
                 const cloudContent = await fileResp.json(); 
-                
                 if(cloudContent) { 
-                    if(cloudContent.smartNotesData) {
-                        allData = cloudContent.smartNotesData; 
-                        // Update local cache from cloud data
-                        localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData));
-                    }
-                    if(cloudContent.appGlobalPass) localStorage.setItem(APP_PASS_KEY, cloudContent.appGlobalPass); 
-                    else localStorage.removeItem(APP_PASS_KEY); 
-
-                    renderMainGrid(); 
-                    if(!silent) showNotification("تم استعادة البيانات ✅", "success"); 
+                    if(cloudContent.smartNotesData) { allData = cloudContent.smartNotesData; localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData)); }
+                    if(cloudContent.appGlobalPass) localStorage.setItem(APP_PASS_KEY, cloudContent.appGlobalPass); else localStorage.removeItem(APP_PASS_KEY); 
+                    renderMainGrid(); if(!silent) showNotification("تم استعادة البيانات ✅", "success"); 
                 } 
-            } else { 
-                // This was the bug: if no file, just means clean state, don't show error unless user asked for sync
-                if(!silent) showNotification("لا توجد نسخة احتياطية", "info"); 
-            } 
-        
+            } else { if(!silent) showNotification("لا توجد نسخة احتياطية", "info"); } 
         } catch(e) { if(!silent) showNotification("فشل الجلب", "error"); } 
-        
-        setSyncLoader(false);
-        document.getElementById('syncText').innerText = "";
+        setSyncLoader(false); document.getElementById('syncText').innerText = "";
     }
 </script>  
 </body>  
