@@ -53,19 +53,19 @@ function saveData() {
     saveTimeout = setTimeout(() => { forceUploadToDrive(true); }, 1000);
 } 
 
-function loadData() { 
-    const cachedData = localStorage.getItem(LOCAL_DATA_KEY);
-    if (cachedData) {
-        try { allData = JSON.parse(cachedData); renderMainGrid(); } 
-        catch (e) { console.error(e); }
-    }
-
+function loadData() {
     if(gAccessToken) {
+        const cachedData = localStorage.getItem(LOCAL_DATA_KEY);
+        if (cachedData) {
+            try { allData = JSON.parse(cachedData); renderMainGrid(); }
+            catch (e) { console.error(e); }
+        }
         forceSyncFromCloud(true);
     } else {
-        if (!cachedData || allData.length === 0) {
-             document.getElementById('loginOverlay').style.display = 'flex';
-        }
+        document.getElementById('loginOverlay').style.display = 'flex';
+        allData = [];
+        localStorage.removeItem(LOCAL_DATA_KEY);
+        renderMainGrid();
     }
 }
 
@@ -646,11 +646,14 @@ async function handleGoogleLogout() {
     closeSheet('settingsSheet');
     setTimeout(async () => {
         if(await showConfirm("هل تريد تسجيل الخروج من السحابة؟")) {
-            localStorage.removeItem('gAccessToken'); 
-            localStorage.removeItem('userPhoto'); 
-            gAccessToken = null; 
-            document.getElementById('googleLogoutIcon').innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`; 
-            checkGoogleLoginState(); 
+            localStorage.removeItem('gAccessToken');
+            localStorage.removeItem('userPhoto');
+            localStorage.removeItem(LOCAL_DATA_KEY);
+            localStorage.removeItem(APP_PASS_KEY);
+            gAccessToken = null;
+            allData = [];
+            document.getElementById('googleLogoutIcon').innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`;
+            checkGoogleLoginState();
             window.location.reload();
         }
     }, 350);
@@ -692,23 +695,51 @@ async function forceUploadToDrive(silent = false) {
 }
 
 async function forceSyncFromCloud(silent = false) {
-    if(!gAccessToken) { if(!silent) showNotif("غير مسجل دخول", "error"); return; } 
+    if(!gAccessToken) { if(!silent) showNotif("غير مسجل دخول", "error"); return; }
     if(!silent) { closeSheet('settingsSheet'); showNotif("جاري الجلب...", "info"); }
     setSyncLoader(true);
     document.getElementById('syncText').innerText = "تحميل...";
 
-    try { 
-        const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`; 
-        const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
-        
-        if(searchResp.status === 401) { 
+    try {
+        const q = `name = '${FILENAME}' and 'appDataFolder' in parents and trashed = false`;
+        const searchResp = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&spaces=appDataFolder`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } });
+
+        if(searchResp.status === 401) {
             if(!isRetry && tokenClient) {
-                isRetry = true; try { tokenClient.requestAccessToken({prompt: ''}); } catch (e) { document.getElementById('loginOverlay').style.display = 'flex'; } return; 
+                isRetry = true; try { tokenClient.requestAccessToken({prompt: ''}); } catch (e) { document.getElementById('loginOverlay').style.display = 'flex'; } return;
             } else {
-                 localStorage.removeItem('gAccessToken'); gAccessToken=null; 
-                 document.getElementById('loginOverlay').style.display = 'flex'; return; 
+                 localStorage.removeItem('gAccessToken'); gAccessToken=null;
+                 document.getElementById('loginOverlay').style.display = 'flex'; return;
             }
         }
+
+        const data = await searchResp.json();
+        if(data.files && data.files.length > 0) {
+            const fileId = data.files[0].id;
+            const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } });
+            const cloudContent = await fileResp.json();
+
+            if(cloudContent) {
+                if(cloudContent.smartNotesData) {
+                    allData = cloudContent.smartNotesData;
+                    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData));
+                }
+                if(cloudContent.appGlobalPass) localStorage.setItem(APP_PASS_KEY, cloudContent.appGlobalPass);
+                else localStorage.removeItem(APP_PASS_KEY);
+
+                renderMainGrid();
+                if(!silent) showNotif("تم استعادة البيانات", "success");
+            }
+        } else {
+            if(!silent) showNotif("لا توجد بيانات محفوظة", "info");
+            allData = [];
+            localStorage.removeItem(LOCAL_DATA_KEY);
+            renderMainGrid();
+        }
+    } catch(e) { if(!silent) showNotif("فشل الجلب", "error"); }
+
+    setSyncLoader(false); document.getElementById('syncText').innerText = "";
+}
 
         const data = await searchResp.json(); 
         if(data.files && data.files.length > 0) { 
