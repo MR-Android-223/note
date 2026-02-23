@@ -741,30 +741,5 @@ async function forceSyncFromCloud(silent = false) {
     setSyncLoader(false); document.getElementById('syncText').innerText = "";
 }
 
-        const data = await searchResp.json(); 
-        if(data.files && data.files.length > 0) { 
-            const fileId = data.files[0].id; 
-            const fileResp = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, { headers: { 'Authorization': `Bearer ${gAccessToken}` } }); 
-            const cloudContent = await fileResp.json(); 
-            
-            if(cloudContent) { 
-                if(cloudContent.smartNotesData) {
-                    allData = cloudContent.smartNotesData; 
-                    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData));
-                }
-                if(cloudContent.appGlobalPass) localStorage.setItem(APP_PASS_KEY, cloudContent.appGlobalPass); 
-                else localStorage.removeItem(APP_PASS_KEY); 
-
-                renderMainGrid(); 
-                if(!silent) showNotif("تم استعادة البيانات", "success"); 
-            } 
-        } else { 
-            if(!silent) showNotif("لا توجد بيانات محفوظة", "info"); 
-        } 
-    } catch(e) { if(!silent) showNotif("فشل الجلب", "error"); } 
-    
-    setSyncLoader(false); document.getElementById('syncText').innerText = "";
-}
-
 let notifTimer = null;
 function showNotif(msg, type = 'info') { const t = document.getElementById('notifToast'); const icon = document.getElementById('notifIcon'); document.getElementById('notifMsg').textContent = msg; const colors = {success: '#10b981', error: '#ef4444', info: '#6366f1'}; t.style.background = colors[type] || colors.info; if(type === 'success') icon.innerHTML = '<polyline points="20 6 9 17 4 12"/>'; else if(type === 'error') icon.innerHTML = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'; else icon.innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'; t.classList.add('show'); if(notifTimer) clearTimeout(notifTimer); notifTimer = setTimeout(() => t.classList.remove('show'), 2500); }
