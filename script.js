@@ -75,13 +75,16 @@ function loadData() {
 }
 
 function saveData() { 
+    // حفظ محلي فوري
     localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(allData));
     
-    if(saveTimeout) clearTimeout(saveTimeout);
+    // إظهار حالة المزامنة
     document.getElementById('syncText').innerText = "جاري الحفظ...";
     setSyncLoader(true);
-    saveTimeout = setTimeout(() => { saveToFirebase(); }, 1000);
-} 
+    
+    // إرسال فوري للسحابة بدون مؤقت تأخير
+    saveToFirebase();
+}
 
 function saveToFirebase(silent = true) {
     if(!currentUid) return;
